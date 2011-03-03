@@ -33,7 +33,7 @@ do_install()
 
     # second, install repository configuration file and rpms
     rpm -ihv $repo_rpm_url
-    yum -y --enablerepo=$repo_name install DAQ-Middleware
+    yum -y --disablerepo='*' --enablerepo=$repo_name install DAQ-Middleware
 }
 
 do_installdep()
@@ -43,7 +43,7 @@ do_installdep()
 
     # second, install repository configuration file and rpms
     rpm -ihv $repo_rpm_url
-    yum -y --enablerepo=$repo_name install OpenRTM-aist xerces-c-devel xalan-c-devel
+    yum -y --disablerepo='*' --enablerepo=$repo_name install OpenRTM-aist xerces-c-devel xalan-c-devel
 }
 
 do_uninstall()
