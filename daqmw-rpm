@@ -5,12 +5,21 @@ set -e
 progpath=$0
 progname=$(basename $0)
 
-repo_rpm_url=http://daqmw.kek.jp/rpm/el5/noarch/kek-daqmiddleware-repo-2-0.noarch.rpm
+os_major_version=$(lsb_release -rs | sed -e 's/\..*$//')
+el_name="el$os_major_version"
+
+if [ $os_major_version -eq 5 ]; then
+    repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-2-0.noarch.rpm
+    repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-2-0.${el_name}.noarch.rpm
+else
+    repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-6-0.noarch.rpm
+    repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-6-0.${el_name}.noarch.rpm
+fi
+
 repo_name=kek-daqmiddleware
 repo_rpm_name=${repo_name}-repo
 repo_name_testing=kek-daqmiddleware-testing
 repo_rpm_name_testing=${repo_name_testing}-repo
-repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/el5/noarch/kek-daqmiddleware-testing-repo-2-0.el5.noarch.rpm
 enable_testing=no
 
 usage()
