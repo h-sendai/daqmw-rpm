@@ -23,7 +23,6 @@ repo_name_testing=kek-daqmiddleware-testing
 repo_rpm_name_testing=${repo_name_testing}-repo
 enable_testing=no
 
-os_name="CentOS"
 case $os_name in
 Scientific*)
     case $os_major_version in
