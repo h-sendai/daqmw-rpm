@@ -33,7 +33,7 @@ Scientific*)
     esac
     ;;
 Cent*)
-    enable_dist_repo="--enablerepo=centos" ;;
+    enable_dist_repo="--enablerepo=base --enablerepo=updates" ;;
 esac
 
 # echo $enable_dist_repo
