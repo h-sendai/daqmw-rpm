@@ -5,6 +5,14 @@ set -e
 progpath=$0
 progname=$(basename $0)
 
+if which lsb_release > /dev/null 2>&1; then
+    :
+else
+    echo "This script requires lsb_release command to find which OS you are using"
+    echo "If you use Scientific Linux, CentOS, Red Hat Enterprise Linux,"
+    echo "root# yum install redhat-lsb-core"
+fi
+
 os_name=$(lsb_release -is)
 os_major_version=$(lsb_release -rs | sed -e 's/\..*$//')
 el_name="el$os_major_version"
@@ -12,9 +20,14 @@ el_name="el$os_major_version"
 if [ $os_major_version -eq 5 ]; then
     repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-2-0.noarch.rpm
     repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-2-0.${el_name}.noarch.rpm
-else
+fi
+if [ $os_major_version -eq 6 ]; then
     repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-6-0.${el_name}.noarch.rpm
     repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-6-0.${el_name}.noarch.rpm
+fi
+if [ $os_major_version -eq 7 ]; then
+    repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-7-0.${el_name}.noarch.rpm
+    repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-7-0.${el_name}.noarch.rpm
 fi
 
 repo_name=kek-daqmiddleware
@@ -29,6 +42,8 @@ Scientific*)
         5)
             enable_dist_repo="--enablerepo=sl-base --enablerepo=sl-security" ;;
         6)
+            enable_dist_repo="--enablerepo=sl --enablerepo=sl-security" ;;
+        7)
             enable_dist_repo="--enablerepo=sl --enablerepo=sl-security" ;;
     esac
     ;;
@@ -114,6 +129,10 @@ do_distclean()
         rm -fr /var/cache/yum/$repo_name
         rm -fr /var/cache/yum/$repo_name_testing
     elif [ $os_major_version -eq 6 ]; then
+        for i in $(find /var/cache/yum -name 'kek-daqmiddleware*' -type d); do
+            rm -fr $i
+        done
+    elif [ $os_major_version -eq 7 ]; then
         for i in $(find /var/cache/yum -name 'kek-daqmiddleware*' -type d); do
             rm -fr $i
         done
