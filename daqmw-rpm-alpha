@@ -1,0 +1,208 @@
+#!/bin/sh
+
+set -e
+
+progpath=$0
+progname=$(basename $0)
+
+if which lsb_release > /dev/null 2>&1; then
+    :
+else
+    echo "This script requires lsb_release command to find which OS you are using"
+    echo "If you use Scientific Linux, CentOS, Red Hat Enterprise Linux,"
+    echo "root# yum install redhat-lsb-core"
+fi
+
+os_name=$(lsb_release -is)
+os_major_version=$(lsb_release -rs | sed -e 's/\..*$//')
+el_name="el$os_major_version"
+
+if [ $os_major_version -eq 5 ]; then
+    repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-2-0.noarch.rpm
+    repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-2-0.${el_name}.noarch.rpm
+fi
+if [ $os_major_version -eq 6 ]; then
+    repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-6-0.${el_name}.noarch.rpm
+    repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-6-0.${el_name}.noarch.rpm
+fi
+if [ $os_major_version -eq 7 ]; then
+    repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-7-0.${el_name}.noarch.rpm
+    repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-7-0.${el_name}.noarch.rpm
+    repo_rpm_url_alpha=http://daqmw.kek.jp/alpha/rpm/${el_name}/noarch/kek-daqmiddleware-alpha-repo-7-0.${el_name}.noarch.rpm
+fi
+
+repo_name=kek-daqmiddleware
+repo_rpm_name=${repo_name}-repo
+repo_name_testing=kek-daqmiddleware-testing
+repo_rpm_name_testing=${repo_name_testing}-repo
+repo_name_alpha=kek-daqmiddleware-alpha
+repo_rpm_name_alpha=${repo_name_alpha}-repo
+
+enable_testing=no
+enable_alpha=no
+
+case $os_name in
+Scientific*)
+    case $os_major_version in
+        5)
+            enable_dist_repo="--enablerepo=sl-base --enablerepo=sl-security" ;;
+        6)
+            enable_dist_repo="--enablerepo=sl --enablerepo=sl-security" ;;
+        7)
+            enable_dist_repo="--enablerepo=sl --enablerepo=sl-security" ;;
+    esac
+    ;;
+Cent*)
+    enable_dist_repo="--enablerepo=base --enablerepo=updates" ;;
+esac
+
+# echo $enable_dist_repo
+
+usage()
+{
+    cat <<EOF 1>&2
+Usage: $progname [-T] [-A] [install | insatlldep | uninstall | distclean]
+
+$progname install:    Setup repository configuration (if not yet) and install
+                      DAQ-Middleware and its dependencies.
+$progname installdep: Setup repository configuration (if not yet) and install
+                      DAQ-Middleware dependencies.  DAQ-Middleware will NOT
+                      be installed.
+$progname uninstall:  Uninstall DAQ-Middleware and its dependencies.
+                      Repository configuration remains.
+$progname distclean:  Uninstall DAQ-Middleware, its dependencies and
+                      repository configuration and its cache.
+Option:
+-T: enable testing DAQ-Middleware package
+-A: enable alpha DAQ-Middleware package
+EOF
+}
+
+do_install()
+{
+    # first, clean up all rpms and repository configuration file
+    do_distclean 
+
+    # second, install repository configuration file and rpms
+    rpm -ihv $repo_rpm_url
+    if [ x"$enable_testing" = x"yes" ]; then
+    	rpm -ihv $repo_rpm_url_testing
+        yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name_testing --enablerepo=$repo_name install DAQ-Middleware
+    elif [ x"$enable_alpha" = x"yes" ]; then
+    	rpm -ihv $repo_rpm_url_alpha
+        yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name_alpha --enablerepo=$repo_name install DAQ-Middleware
+    else
+        yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name install DAQ-Middleware
+    fi
+}
+
+do_installdep()
+{
+    # first, clean up all rpms and repository configuration file
+    do_distclean 
+
+    # second, install repository configuration file and rpms
+    rpm -ihv $repo_rpm_url
+    yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name install OpenRTM-aist xerces-c-devel xalan-c-devel
+}
+
+do_uninstall()
+{
+    local rpm_package
+    local rpm_package_list
+
+    rpm_package_list=$(sed -e '1,/^__DATA__/d' $progpath | sed -e '/^#/d')
+    for rpm_package in $rpm_package_list; do
+        rpm --quiet -q $rpm_package && \
+        (echo -n "remove $rpm_package ..."; rpm -e $rpm_package; echo " done")
+    done
+    return 0
+}
+
+do_distclean()
+{
+    local arch
+    local os_version
+
+    # first, try to remove rpms except repository configuration file
+    do_uninstall
+
+    # second, try to remove repository configuration file
+    rpm --quiet -q $repo_rpm_name && (echo -n "remove repo conf file ..."; rpm -e $repo_rpm_name; echo " done")
+
+    rpm --quiet -q $repo_rpm_name_testing && (echo -n "remove repo conf file for testing..."; rpm -e $repo_rpm_name_testing; echo " done")
+
+    rpm --quiet -q $repo_rpm_name_alpha && (echo -n "remove repo conf file for alpha..."; rpm -e $repo_rpm_name_alpha; echo " done")
+
+    # third, remove cache directory completely
+
+    if [ $os_major_version -eq 5 ]; then
+        rm -fr /var/cache/yum/$repo_name
+        rm -fr /var/cache/yum/$repo_name_testing
+    elif [ $os_major_version -eq 6 ]; then
+        for i in $(find /var/cache/yum -name 'kek-daqmiddleware*' -type d); do
+            rm -fr $i
+        done
+    elif [ $os_major_version -eq 7 ]; then
+        for i in $(find /var/cache/yum -name 'kek-daqmiddleware*' -type d); do
+            rm -fr $i
+        done
+    else
+        echo "unknown RHEL (derived) version: $os_major_version"
+        exit 1
+    fi
+    return 0
+}
+
+TEMP=`getopt -o hAT --long help -n "$progname" -- "$@"`
+
+#if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+if [ $? != 0 ] ;then
+    exit 1
+fi
+
+eval set -- "$TEMP"
+
+while true ; do
+    case "$1" in
+        --help) usage; exit 0 ;;
+        -h)     usage; exit 0 ;;
+        -T)     enable_testing=yes; shift 1 ;;
+        -A)     enable_alpha=yes; shift 1 ;;
+        --) shift ; break ;;
+        *) echo "Internal error!" ; exit 1 ;;
+    esac
+done
+
+if [ $# -eq 0 ]; then
+    usage
+    exit 1
+fi
+
+command=$1
+
+case $command in 
+    install)    do_install;    ;;
+    installdep) do_installdep; ;;
+    uninstall)  do_uninstall;  ;;
+    distclean)  do_distclean;  ;;
+    *)          usage; exit 1  ;;
+esac
+
+# do not remove following exit to use __DATA__ section
+exit
+
+__DATA__
+#
+DAQ-Middleware
+OpenRTM-aist
+omniORB-bootscripts
+xalan-c-devel
+omniORB-devel
+xalan-c
+omniORB-servers
+omniORB-utils
+omniORB-doc
+xerces-c-devel
+xerces-c
+omniORB
