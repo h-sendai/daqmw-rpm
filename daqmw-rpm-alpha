@@ -49,7 +49,7 @@ Scientific*)
         6)
             enable_dist_repo="--enablerepo=sl --enablerepo=sl-security" ;;
         7)
-            enable_dist_repo="--enablerepo=sl --enablerepo=sl-security" ;;
+            enable_dist_repo="--enablerepo=sl --enablerepo=sl-security --enablerepo=sl-fastbugs" ;;
     esac
     ;;
 Cent*)
