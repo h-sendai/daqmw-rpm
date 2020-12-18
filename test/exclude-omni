@@ -1,0 +1,40 @@
+#!/bin/sh
+
+add_exclude_omniorb()
+{
+    local etc_yum_conf
+
+    etc_yum_conf=./yum.conf # for test
+    # etc_yum_conf=/etc/yum.conf
+
+    if [ -f $etc_yum_conf ]; then
+        #
+        # if exclude= line in yum.conf; then
+        #    if exclude= contain omniORB, then do nothing
+        #    else append omniORB* to exclude= line
+        # else # exclude= line does not exist
+        #    add new exclude=omniORB* line
+        #
+        if grep -q '^exclude=' $etc_yum_conf; then
+            if grep -q '^exclude=.*omniORB.*' $etc_yum_conf; then
+                : 
+            else
+                # append "omniORB*" to exclude= line
+                tmp_file=/tmp/yum.conf.$$
+                awk '
+                    !/^exclude=/ {print $0}
+                     /^exclude=/ {print $0, "omniORB*"}
+                ' $etc_yum_conf > $tmp_file
+                cp -p $etc_yum_conf ${etc_yum_conf}.back
+                cp $tmp_file $etc_yum_conf
+                #rm $tmp_file
+            fi
+        else
+            # no exclude line in yum.conf
+            cp -p $etc_yum_conf ${etc_yum_conf}.back
+            echo 'exclude=omniORB*' >> $etc_yum_conf
+        fi
+    fi
+}
+
+add_exclude_omniorb
