@@ -2,32 +2,37 @@
 
 remove_exclude_omniorb()
 {
-    local etc_yum_conf
+    local conf_file
 
-    etc_yum_conf=./yum.conf # for test
-    # etc_yum_conf=/etc/yum.conf
-
-    if [ -f $etc_yum_conf ]; then
-        awk '
-            { 
-                # if not exlude line, print it
-                if ($0 !~ /^exclude[ ]*=/) {
-                    print $0;
-                } else {
-                    # then this is the exclude line.
-                    # remove omniORB*, omniORB-doc etc.
-                    gsub(/omniORB[^ ]*/, "", $0);
-                    # compress 2 or more spaces to 1 space
-                    gsub(/[ ]+/, " ", $0);
-                    # if the exclude = line does have Right Hand Side, print it
-                    # if no RHS, do not print it
-                    if ($0 !~ /^exclude[ ]*=[ ]*$/) {
-                        print $0;
+    for conf_file in $*; do
+        if [ -f $conf_file ]; then
+            if grep -q '^exclude[[:space:]]*=.*omniORB.*' $conf_file; then
+                tmp_file=/tmp/yum.conf.$$
+                awk '
+                    { 
+                        # if not exlude line, print it
+                        if ($0 !~ /^exclude[ ]*=/) {
+                            print $0;
+                        } else {
+                            # then this is the exclude line.
+                            # remove omniORB*, omniORB-doc etc.
+                            gsub(/omniORB[^ ]*/, "", $0);
+                            # compress 2 or more spaces to 1 space
+                            gsub(/[ ]+/, " ", $0);
+                            # if the exclude = line does have Right Hand Side, print it
+                            # if no RHS, do not print it
+                            if ($0 !~ /^exclude[ ]*=[ ]*$/) {
+                                print $0;
+                            }
+                        }
                     }
-                }
-            }
-        ' $etc_yum_conf
-    fi
+                ' $conf_file > $tmp_file
+                cp -p $conf_file ${conf_file}.back
+                cp $tmp_file $conf_file
+                rm $tmp_file
+            fi
+        fi
+    done
 }
 
-remove_exclude_omniorb
+remove_exclude_omniorb yum.conf yum-cron.conf
