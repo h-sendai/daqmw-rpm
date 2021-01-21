@@ -1,0 +1,33 @@
+#!/bin/sh
+
+remove_exclude_omniorb()
+{
+    local etc_yum_conf
+
+    etc_yum_conf=./yum.conf # for test
+    # etc_yum_conf=/etc/yum.conf
+
+    if [ -f $etc_yum_conf ]; then
+        awk '
+            { 
+                # if not exlude line, print it
+                if ($0 !~ /^exclude[ ]*=/) {
+                    print $0;
+                } else {
+                    # then this is the exclude line.
+                    # remove omniORB*, omniORB-doc etc.
+                    gsub(/omniORB[^ ]*/, "", $0);
+                    # compress 2 or more spaces to 1 space
+                    gsub(/[ ]+/, " ", $0);
+                    # if the exclude = line does have Right Hand Side, print it
+                    # if no RHS, do not print it
+                    if ($0 !~ /^exclude[ ]*=[ ]*$/) {
+                        print $0;
+                    }
+                }
+            }
+        ' $etc_yum_conf
+    fi
+}
+
+remove_exclude_omniorb
