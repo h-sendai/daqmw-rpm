@@ -100,8 +100,8 @@ add_exclude_omniorb()
             # else # exclude= line does not exist
             #    add new exclude=omniORB* line
             #
-            if grep -q '^exclude[[:space:]]*=' $conf_file; then
-                if grep -q '^exclude=.*omniORB.*' $conf_file; then
+            if egrep -q '^exclude[[:space:]]*=' $conf_file; then
+                if egrep -q '^exclude=.*omniORB.*' $conf_file; then
                     : 
                 else
                     # append "omniORB*" to exclude= line
@@ -129,7 +129,7 @@ remove_exclude_omniorb()
 
     for conf_file in $*; do
         if [ -f $conf_file ]; then
-            if grep -q '^exclude[[:space:]]*=.*omniORB.*' $conf_file; then
+            if egrep -q '^exclude[[:space:]]*=.*omniORB.*' $conf_file; then
                 tmp_file=/tmp/yum.conf.$$
                 awk '
                     { 
