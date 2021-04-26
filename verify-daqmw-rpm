@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# set -e
+
+progpath=$0
+progname=$(basename $progpath)
+
+file_list=$(sed -e '1,/^__DATA__/d' $progpath | sed -e '/^#/d')
+for f in $file_list; do
+    echo "---> $f"
+    name_version=$(rpm -q $f)
+    rpm --quiet -V $f
+    if [ $? -ne 0 ]; then
+        echo $name_version
+        rpm -V $f
+    else
+        echo "$name_version OK"
+    fi
+done
+
+# do not remove following exit to use __DATA__ section
+exit
+
+__DATA__
+# one entry per one line
+# comment line starts with #
+DAQ-Middleware
+OpenRTM-aist
+omniORB
+omniORB-devel
+omniORB-doc
+omniORB-servers
+omniORB-utils
+xalan-c
+xalan-c-devel
+xerces-c
+xerces-c-devel
