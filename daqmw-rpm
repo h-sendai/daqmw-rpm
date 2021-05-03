@@ -58,7 +58,7 @@ Cent*)
         7)
             enable_dist_repo="--enablerepo=base --enablerepo=updates" ;;
         8)
-            enable_dist_repo="--enablerepo=BaseOS --enablerepo=AppStream --enablerepo=extras --enablerepo=PowerTools" ;;
+            enable_dist_repo="--enablerepo=baseos --enablerepo=appstream --enablerepo=extras --enablerepo=powertools" ;;
     esac
     ;;
 esac
