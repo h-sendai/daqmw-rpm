@@ -164,9 +164,9 @@ do_install()
     do_distclean 
 
     # second, install repository configuration file and rpms
-    rpm -ihv $repo_rpm_url
+    yum -y install $repo_rpm_url
     if [ x"$enable_testing" = x"yes" ]; then
-    	rpm -ihv $repo_rpm_url_testing
+    	yum -y install $repo_rpm_url_testing
         yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name_testing --enablerepo=$repo_name install DAQ-Middleware
     else
         yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name install DAQ-Middleware
@@ -198,10 +198,11 @@ do_uninstall()
     local rpm_package_list
 
     rpm_package_list=$(sed -e '1,/^__DATA__/d' $progpath | sed -e '/^#/d')
-    for rpm_package in $rpm_package_list; do
-        rpm --quiet -q $rpm_package && \
-        (echo -n "remove $rpm_package ..."; rpm -e $rpm_package; echo " done")
-    done
+    #for rpm_package in $rpm_package_list; do
+    #    rpm --quiet -q $rpm_package && \
+    #    (echo -n "remove $rpm_package ..."; rpm -e $rpm_package; echo " done")
+    #done
+    yum -y remove $rpm_package_list
 
     remove_exclude_omniorb /etc/yum.conf /etc/yum/yum-cron.conf
 
@@ -217,9 +218,9 @@ do_distclean()
     do_uninstall
 
     # second, try to remove repository configuration file
-    rpm --quiet -q $repo_rpm_name && (echo -n "remove repo conf file ..."; rpm -e $repo_rpm_name; echo " done")
+    rpm --quiet -q $repo_rpm_name && (echo -n "remove repo conf file ..."; yum -y remove $repo_rpm_name; echo " done")
 
-    rpm --quiet -q $repo_rpm_name_testing && (echo -n "remove repo conf file for testing..."; rpm -e $repo_rpm_name_testing; echo " done")
+    rpm --quiet -q $repo_rpm_name_testing && (echo -n "remove repo conf file for testing..."; yum -y remove $repo_rpm_name_testing; echo " done")
 
     # third, remove cache directory completely
 
