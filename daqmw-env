@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# set -e
+
+progpath=$0
+progname=$(basename $progpath)
+
+usage()
+{
+   echo Usage: $progname
+   echo 
+}
+
+
+list_rpm()
+{
+    file_list=$(sed -e '1,/^__DATA__/d' $progpath | sed -e '/^#/d')
+    for i in $file_list; do
+        if rpm --quiet -q $i; then
+            rpm -q $i
+        else
+            echo $i NONE
+        fi
+        debug_info=${i}-debuginfo
+        if rpm --quiet -q $debug_info; then
+            rpm -q $debug_info
+        else
+            echo $debug_info NONE
+        fi
+    done
+}
+
+os_info()
+{
+    lsb_release -a
+    uname -a
+}
+
+# do not remove following exit to use __DATA__ section
+echo "---> os_info"
+os_info
+echo "---> daqmw rpm list"
+list_rpm
+exit
+
+__DATA__
+# one entry per one line
+# comment line starts with #
+glibc
+DAQ-Middleware
+OpenRTM-aist
+omniORB
+omniORB-servers
+omniORB-utils
+omniORB-doc
+omniORB-devel
+xerces-c
+xerces-c-devel
+xalan-c
+xalan-c-devel
+mod_wsgi
+httpd
+python
+python-devel
