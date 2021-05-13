@@ -191,10 +191,10 @@ do_installdep()
     # second, install repository configuration file and rpms
     yum -y install $repo_rpm_url
     if [ x"$enable_testing" = x"yes" ]; then
-    	yum -y $repo_rpm_url_testing
+    	yum -y install $repo_rpm_url_testing
         yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name_testing --enablerepo=$repo_name install OpenRTM-aist xerces-c-devel xalan-c-devel omniORB-devel omniORB-utils
     elif [ x"$enable_testing2" = x"yes" ]; then
-    	yum -y $repo_rpm_url_testing2
+    	yum -y install $repo_rpm_url_testing2
         yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name_testing2 --enablerepo=$repo_name install OpenRTM-aist xerces-c-devel xalan-c-devel omniORB-devel omniORB-utils
     else
     	yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name install OpenRTM-aist xerces-c-devel xalan-c-devel omniORB-devel omniORB-utils
