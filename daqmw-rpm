@@ -28,16 +28,20 @@ fi
 if [ $os_major_version -eq 7 ]; then
     repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-7-0.${el_name}.noarch.rpm
     repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-7-0.${el_name}.noarch.rpm
+    repo_rpm_url_testing2=http://daqmw.kek.jp/testing2/rpm/${el_name}/noarch/kek-daqmiddleware-testing2-repo-7-0.${el_name}.noarch.rpm
 fi
 if [ $os_major_version -eq 8 ]; then
     repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-8-0.${el_name}.noarch.rpm
     repo_rpm_url_testing=http://daqmw.kek.jp/testing/rpm/${el_name}/noarch/kek-daqmiddleware-testing-repo-8-0.${el_name}.noarch.rpm
+    repo_rpm_url_testing2=http://daqmw.kek.jp/testing2/rpm/${el_name}/noarch/kek-daqmiddleware-testing2-repo-8-0.${el_name}.noarch.rpm
 fi
 
 repo_name=kek-daqmiddleware
 repo_rpm_name=${repo_name}-repo
 repo_name_testing=kek-daqmiddleware-testing
 repo_rpm_name_testing=${repo_name_testing}-repo
+repo_name_testing2=kek-daqmiddleware-testing2
+repo_rpm_name_testing2=${repo_name_testing2}-repo
 enable_testing=no
 
 case $os_name in
@@ -68,7 +72,7 @@ esac
 usage()
 {
     cat <<EOF 1>&2
-Usage: $progname [-T] [install | insatlldep | uninstall | distclean]
+Usage: $progname [-T] [-U] [install | insatlldep | uninstall | distclean]
 
 $progname install:    Setup repository configuration (if not yet) and install
                       DAQ-Middleware and its dependencies.
@@ -81,6 +85,7 @@ $progname distclean:  Uninstall DAQ-Middleware, its dependencies and
                       repository configuration and its cache.
 Option:
 -T: enable testing DAQ-Middleware package
+-U: enable testing2 DAQ-Middleware package (-T and -U are exclusive)
 EOF
 }
 
@@ -168,6 +173,9 @@ do_install()
     if [ x"$enable_testing" = x"yes" ]; then
     	yum -y install $repo_rpm_url_testing
         yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name_testing --enablerepo=$repo_name install DAQ-Middleware
+    elif [ x"$enable_testing2" = x"yes" ]; then
+    	yum -y install $repo_rpm_url_testing2
+        yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name_testing2 --enablerepo=$repo_name install DAQ-Middleware
     else
         yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name install DAQ-Middleware
     fi
@@ -181,10 +189,13 @@ do_installdep()
     do_distclean 
 
     # second, install repository configuration file and rpms
-    rpm -ihv $repo_rpm_url
+    yum -y install $repo_rpm_url
     if [ x"$enable_testing" = x"yes" ]; then
-    	rpm -ihv $repo_rpm_url_testing
+    	yum -y $repo_rpm_url_testing
         yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name_testing --enablerepo=$repo_name install OpenRTM-aist xerces-c-devel xalan-c-devel omniORB-devel omniORB-utils
+    elif [ x"$enable_testing2" = x"yes" ]; then
+    	yum -y $repo_rpm_url_testing2
+        yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name_testing2 --enablerepo=$repo_name install OpenRTM-aist xerces-c-devel xalan-c-devel omniORB-devel omniORB-utils
     else
     	yum -y --disablerepo='*' $enable_dist_repo --enablerepo=$repo_name install OpenRTM-aist xerces-c-devel xalan-c-devel omniORB-devel omniORB-utils
     fi
@@ -220,7 +231,8 @@ do_distclean()
     # second, try to remove repository configuration file
     rpm --quiet -q $repo_rpm_name && (echo -n "remove repo conf file ..."; yum -y remove $repo_rpm_name; echo " done")
 
-    rpm --quiet -q $repo_rpm_name_testing && (echo -n "remove repo conf file for testing..."; yum -y remove $repo_rpm_name_testing; echo " done")
+    rpm --quiet -q $repo_rpm_name_testing  && (echo -n "remove repo conf file for testing...";  yum -y remove $repo_rpm_name_testing;  echo " done")
+    rpm --quiet -q $repo_rpm_name_testing2 && (echo -n "remove repo conf file for testing2..."; yum -y remove $repo_rpm_name_testing2; echo " done")
 
     # third, remove cache directory completely
 
@@ -246,7 +258,7 @@ do_distclean()
     return 0
 }
 
-TEMP=`getopt -o hT --long help -n "$progname" -- "$@"`
+TEMP=`getopt -o hTU --long help -n "$progname" -- "$@"`
 
 #if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
 if [ $? != 0 ] ;then
@@ -260,6 +272,7 @@ while true ; do
         --help) usage; exit 0 ;;
         -h)     usage; exit 0 ;;
         -T)     enable_testing=yes; shift 1 ;;
+        -U)     enable_testing2=yes; shift 1 ;;
         --) shift ; break ;;
         *) echo "Internal error!" ; exit 1 ;;
     esac
