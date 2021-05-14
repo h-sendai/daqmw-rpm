@@ -209,11 +209,16 @@ do_uninstall()
     local rpm_package_list
 
     rpm_package_list=$(sed -e '1,/^__DATA__/d' $progpath | sed -e '/^#/d')
-    #for rpm_package in $rpm_package_list; do
-    #    rpm --quiet -q $rpm_package && \
-    #    (echo -n "remove $rpm_package ..."; rpm -e $rpm_package; echo " done")
-    #done
-    yum -y remove $rpm_package_list
+
+    # create remove rpm package list to remove in one yum command
+    remove_package_list=""
+    for rpm_package in $rpm_package_list; do
+        rpm --quiet -q $rpm_package && remove_package_list="$remove_package_list $rpm_package"
+    done
+    # then yum remove
+    if [ ! -z "$remove_package_list" ]; then
+        yum -y remove $remove_package_list
+    fi
 
     remove_exclude_omniorb /etc/yum.conf /etc/yum/yum-cron.conf
 
