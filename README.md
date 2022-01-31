@@ -1,6 +1,4 @@
-# Scientific Linux, CentOSにDAQ-Middlewareをセットするスクリプト
+# DAQ-Middleware RPM関連ファイル
 
-1. yumリポジトリファイルをダウンロードしインストールする。
-2. DAQ-Middleware RPMパッケージ、および依存パッケージをダウンロード、インストールする。
-3. EPELにあるomniORB 4.2.0は今はDAQ-Middlewareでは使えないので/etc/yum.conf、/etc/yum/yum-cron.confに
-   ``exclude=omniORB*``を追加する。すでに``exclude=``があればその行に追加する。
+- [install-script](install-script/)
+- [OpenRTM-aist SRPM files](openrtm-aist-1.0.0-daqmw/)
