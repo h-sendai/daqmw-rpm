@@ -1,0 +1,711 @@
+--- OpenRTM-aist-r1971/src/lib/rtm/RingBuffer.h.orig	2010-06-24 09:22:51.000000000 +0900
++++ OpenRTM-aist-r1971/src/lib/rtm/RingBuffer.h	2010-06-24 09:10:54.000000000 +0900
+@@ -13,7 +13,7 @@
+  *         Advanced Industrial Science and Technology (AIST), Japan
+  *     All rights reserved.
+  *
+- * $Id: RingBuffer.h 1971 2010-06-03 08:46:40Z n-ando $
++ * $Id: RingBuffer.h 1963 2010-04-22 08:41:25Z n-ando $
+  *
+  */
+ 
+@@ -38,7 +38,7 @@
+  * @if jp
+  * @namespace RTC
+  *
+- * @brief RT¥³¥ó¥Ý¡¼¥Í¥ó¥È
++ * @brief RT$B%3%s%]!<%M%s%H(B
+  *
+  * @else
+  *
+@@ -53,16 +53,16 @@
+   /*!
+    * @if jp
+    * @class RingBuffer
+-   * @brief ¥ê¥ó¥°¥Ð¥Ã¥Õ¥¡¼ÂÁõ¥¯¥é¥¹
++   * @brief $B%j%s%0%P%C%U%!<BAu%/%i%9(B
+    * 
+-   * »ØÄê¤·¤¿Ä¹¤µ¤Î¥ê¥ó¥°¾õ¥Ð¥Ã¥Õ¥¡¤ò»ý¤Ä¥Ð¥Ã¥Õ¥¡¼ÂÁõ¥¯¥é¥¹¡£
+-   * ¥Ð¥Ã¥Õ¥¡Á´ÂÎ¤Ë¥Ç¡¼¥¿¤¬³ÊÇ¼¤µ¤ì¤¿¾ì¹ç¡¢°Ê¹ß¤Î¥Ç¡¼¥¿¤Ï¸Å¤¤¥Ç¡¼¥¿¤«¤é
+-   * ½ç¼¡¾å½ñ¤­¤µ¤ì¤ë¡£
+-   * ½¾¤Ã¤Æ¡¢¥Ð¥Ã¥Õ¥¡Æâ¤Ë¤ÏÄ¾¶á¤Î¥Ð¥Ã¥Õ¥¡Ä¹Ê¬¤Î¥Ç¡¼¥¿¤Î¤ßÊÝ»ý¤µ¤ì¤ë¡£
++   * $B;XDj$7$?D9$5$N%j%s%0>u%P%C%U%!$r;}$D%P%C%U%!<BAu%/%i%9!#(B
++   * $B%P%C%U%!A4BN$K%G!<%?$,3JG<$5$l$?>l9g!"0J9_$N%G!<%?$O8E$$%G!<%?$+$i(B
++   * $B=g<!>e=q$-$5$l$k!#(B
++   * $B=>$C$F!"%P%C%U%!Fb$K$OD>6a$N%P%C%U%!D9J,$N%G!<%?$N$_J];}$5$l$k!#(B
+    *
+-   * Ãí)¸½ºß¤Î¼ÂÁõ¤Ç¤Ï¡¢°ìÈÖºÇ¸å¤Ë³ÊÇ¼¤·¤¿¥Ç¡¼¥¿¤Î¤ß¥Ð¥Ã¥Õ¥¡¤«¤éÆÉ¤ß½Ð¤·²ÄÇ½
++   * $BCm(B)$B8=:_$N<BAu$G$O!"0lHV:G8e$K3JG<$7$?%G!<%?$N$_%P%C%U%!$+$iFI$_=P$72DG=(B
+    *
+-   * @param DataType ¥Ð¥Ã¥Õ¥¡¤Ë³ÊÇ¼¤¹¤ë¥Ç¡¼¥¿·¿
++   * @param DataType $B%P%C%U%!$K3JG<$9$k%G!<%?7?(B
+    *
+    * @since 0.4.0
+    *
+@@ -95,12 +95,12 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥³¥ó¥¹¥È¥é¥¯¥¿
++     * @brief $B%3%s%9%H%i%/%?(B
+      * 
+-     * ¥³¥ó¥¹¥È¥é¥¯¥¿
+-     * »ØÄê¤µ¤ì¤¿¥Ð¥Ã¥Õ¥¡Ä¹¤Ç¥Ð¥Ã¥Õ¥¡¤ò½é´ü²½¤¹¤ë¡£
++     * $B%3%s%9%H%i%/%?(B
++     * $B;XDj$5$l$?%P%C%U%!D9$G%P%C%U%!$r=i4|2=$9$k!#(B
+      *
+-     * @param length ¥Ð¥Ã¥Õ¥¡Ä¹
++     * @param length $B%P%C%U%!D9(B
+      * 
+      * @else
+      *
+@@ -129,9 +129,9 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ²¾ÁÛ¥Ç¥¹¥È¥é¥¯¥¿
++     * @brief $B2>A[%G%9%H%i%/%?(B
+      * 
+-     * ²¾ÁÛ¥Ç¥¹¥È¥é¥¯¥¿¡£
++     * $B2>A[%G%9%H%i%/%?!#(B
+      * 
+      * @else
+      *
+@@ -147,38 +147,38 @@
+     
+     /*!
+      * @if jp
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤ÎÀßÄê
++     * @brief $B%P%C%U%!$N@_Dj(B
+      *
+-     * coil::Properties ¤ÇÍ¿¤¨¤é¤ì¤ë¥×¥í¥Ñ¥Æ¥£¤Ë¤è¤ê¡¢
+-     * ¥Ð¥Ã¥Õ¥¡¤ÎÀßÄê¤ò½é´ü²½¤¹¤ë¡£
+-     * »ÈÍÑ¤Ç¤­¤ë¥ª¥×¥·¥ç¥ó¤È°ÕÌ£¤Ï°Ê²¼¤ÎÄÌ¤ê
++     * coil::Properties $B$GM?$($i$l$k%W%m%Q%F%#$K$h$j!"(B
++     * $B%P%C%U%!$N@_Dj$r=i4|2=$9$k!#(B
++     * $B;HMQ$G$-$k%*%W%7%g%s$H0UL#$O0J2<$NDL$j(B
+      *
+      * - buffer.length:
+-     *     ¥Ð¥Ã¥Õ¥¡¤ÎÄ¹¤µ¡£¼«Á³¿ô°Ê³°¤Î¿ôÃÍ¤¬»ØÄê¤µ¤ì¤Æ¤âÌµ»ë¤µ¤ì¤ë¡£¤¹
+-     *     ¤Ç¤Ë¥Ð¥Ã¥Õ¥¡¤¬»ÈÍÑ¾õÂÖ¤Ç¤â¡¢Ä¹¤µ¤¬ºÆÀßÄê¤µ¤ì¤¿¤Î¤Á¡¢¤¹¤Ù¤Æ¤Î
+-     *     ¥Ý¥¤¥ó¥¿¤¬½é´ü²½¤µ¤ì¤ë¡£
++     *     $B%P%C%U%!$ND9$5!#<+A3?t0J30$N?tCM$,;XDj$5$l$F$bL5;k$5$l$k!#$9(B
++     *     $B$G$K%P%C%U%!$,;HMQ>uBV$G$b!"D9$5$,:F@_Dj$5$l$?$N$A!"$9$Y$F$N(B
++     *     $B%]%$%s%?$,=i4|2=$5$l$k!#(B
+      *
+      * - buffer.write.full_policy:
+-     *     ¾å½ñ¤­¤¹¤ë¤«¤É¤¦¤«¤Î¥Ý¥ê¥·¡¼¡£
+-     *     overwrite (¾å½ñ¤­), do_nothing (²¿¤â¤·¤Ê¤¤), block (¥Ö¥í¥Ã¥¯¤¹¤ë)
+-     *     block ¤ò»ØÄê¤·¤¿¾ì¹ç¡¢¼¡¤Î timeout ÃÍ¤ò»ØÄê¤¹¤ì¤Ð¡¢»ØÄê»þ´Ö¸å
+-     *     ½ñ¤­¹þ¤ßÉÔ²ÄÇ½¤Ç¤¢¤ì¤Ð¥¿¥¤¥à¥¢¥¦¥È¤¹¤ë¡£
+-     *     ¥Ç¥Õ¥©¥ë¥È¤Ï  overwrite (¾å½ñ¤­)¡£
++     *     $B>e=q$-$9$k$+$I$&$+$N%]%j%7!<!#(B
++     *     overwrite ($B>e=q$-(B), do_nothing ($B2?$b$7$J$$(B), block ($B%V%m%C%/$9$k(B)
++     *     block $B$r;XDj$7$?>l9g!"<!$N(B timeout $BCM$r;XDj$9$l$P!";XDj;~4V8e(B
++     *     $B=q$-9~$_IT2DG=$G$"$l$P%?%$%`%"%&%H$9$k!#(B
++     *     $B%G%U%)%k%H$O(B  overwrite ($B>e=q$-(B)$B!#(B
+      *
+      * - buffer.write.timeout:
+-     *     ¥¿¥¤¥à¥¢¥¦¥È»þ´Ö¤ò [sec] ¤Ç»ØÄê¤¹¤ë¡£¥Ç¥Õ¥©¥ë¥È¤Ï 1.0 [sec]¡£
+-     *     1 sec -> 1.0, 1 ms -> 0.001, ¥¿¥¤¥à¥¢¥¦¥È¤·¤Ê¤¤ -> 0.0
++     *     $B%?%$%`%"%&%H;~4V$r(B [sec] $B$G;XDj$9$k!#%G%U%)%k%H$O(B 1.0 [sec]$B!#(B
++     *     1 sec -> 1.0, 1 ms -> 0.001, $B%?%$%`%"%&%H$7$J$$(B -> 0.0
+      *
+      * - buffer.read.empty_policy:
+-     *     ¥Ð¥Ã¥Õ¥¡¤¬¶õ¤Î¤È¤­¤ÎÆÉ¤ß½Ð¤·¥Ý¥ê¥·¡¼¡£
+-     *     readback (ºÇ¸å¤ÎÍ×ÁÇ), do_nothing (²¿¤â¤·¤Ê¤¤), block (¥Ö¥í¥Ã¥¯¤¹¤ë)
+-     *     block ¤ò»ØÄê¤·¤¿¾ì¹ç¡¢¼¡¤Î timeout ÃÍ¤ò»ØÄê¤¹¤ì¤Ð¡¢»ØÄê»þ´Ö¸å
+-     *     ÆÉ¤ß½Ð¤·ÉÔ²ÄÇ½¤Ç¤¢¤ì¤Ð¥¿¥¤¥à¥¢¥¦¥È¤¹¤ë¡£
+-     *     ¥Ç¥Õ¥©¥ë¥È¤Ï readback (ºÇ¸å¤ÎÍ×ÁÇ)¡£
++     *     $B%P%C%U%!$,6u$N$H$-$NFI$_=P$7%]%j%7!<!#(B
++     *     readback ($B:G8e$NMWAG(B), do_nothing ($B2?$b$7$J$$(B), block ($B%V%m%C%/$9$k(B)
++     *     block $B$r;XDj$7$?>l9g!"<!$N(B timeout $BCM$r;XDj$9$l$P!";XDj;~4V8e(B
++     *     $BFI$_=P$7IT2DG=$G$"$l$P%?%$%`%"%&%H$9$k!#(B
++     *     $B%G%U%)%k%H$O(B readback ($B:G8e$NMWAG(B)$B!#(B
+      *
+      * - buffer.read.timeout:
+-     *     ¥¿¥¤¥à¥¢¥¦¥È»þ´Ö [sec] ¤Ç»ØÄê¤¹¤ë¡£¥Ç¥Õ¥©¥ë¥È¤Ï 1.0 [sec]¡£
+-     *     1sec -> 1.0, 1ms -> 0.001, ¥¿¥¤¥à¥¢¥¦¥È¤·¤Ê¤¤ -> 0.0
++     *     $B%?%$%`%"%&%H;~4V(B [sec] $B$G;XDj$9$k!#%G%U%)%k%H$O(B 1.0 [sec]$B!#(B
++     *     1sec -> 1.0, 1ms -> 0.001, $B%?%$%`%"%&%H$7$J$$(B -> 0.0
+      *
+      * @else
+      *
+@@ -194,11 +194,11 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡Ä¹¤ò¼èÆÀ¤¹¤ë
++     * @brief $B%P%C%U%!D9$r<hF@$9$k(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡Ä¹¤ò¼èÆÀ¤¹¤ë¡£
++     * $B%P%C%U%!D9$r<hF@$9$k!#(B
+      * 
+-     * @return ¥Ð¥Ã¥Õ¥¡Ä¹
++     * @return $B%P%C%U%!D9(B
+      * 
+      * @else
+      *
+@@ -220,14 +220,14 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤ÎÄ¹¤µ¤ò¥»¥Ã¥È¤¹¤ë
++     * @brief $B%P%C%U%!$ND9$5$r%;%C%H$9$k(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡Ä¹¤òÀßÄê¤¹¤ë¡£ÀßÄêÉÔ²Ä¤Ê¾ì¹ç¤ÏNOT_SUPPORTED¤¬ÊÖ¤ë¡£
+-     * ¤³¤Î¼ÂÁõ¤Ç¤Ï BUFFER_OK ¤·¤«ÊÖ¤µ¤Ê¤¤¡£
++     * $B%P%C%U%!D9$r@_Dj$9$k!#@_DjIT2D$J>l9g$O(BNOT_SUPPORTED$B$,JV$k!#(B
++     * $B$3$N<BAu$G$O(B BUFFER_OK $B$7$+JV$5$J$$!#(B
+      * 
+-     * @return BUFFER_OK: Àµ¾ï½ªÎ»
+-     *         NOT_SUPPORTED: ¥Ð¥Ã¥Õ¥¡Ä¹ÊÑ¹¹ÉÔ²Ä
+-     *         BUFFER_ERROR: °Û¾ï½ªÎ»
++     * @return BUFFER_OK: $B@5>o=*N;(B
++     *         NOT_SUPPORTED: $B%P%C%U%!D9JQ99IT2D(B
++     *         BUFFER_ERROR: $B0[>o=*N;(B
+      * 
+      * @else
+      *
+@@ -250,14 +250,14 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤Î¾õÂÖ¤ò¥ê¥»¥Ã¥È¤¹¤ë
++     * @brief $B%P%C%U%!$N>uBV$r%j%;%C%H$9$k(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡¤ÎÆÉ¤ß½Ð¤·¥Ý¥¤¥ó¥¿¤È½ñ¤­¹þ¤ß¥Ý¥¤¥ó¥¿¤Î°ÌÃÖ¤ò¥ê¥»¥Ã¥È¤¹¤ë¡£
+-     * ¤³¤Î¼ÂÁõ¤Ç¤Ï BUFFER_OK ¤·¤«ÊÖ¤µ¤Ê¤¤¡£
++     * $B%P%C%U%!$NFI$_=P$7%]%$%s%?$H=q$-9~$_%]%$%s%?$N0LCV$r%j%;%C%H$9$k!#(B
++     * $B$3$N<BAu$G$O(B BUFFER_OK $B$7$+JV$5$J$$!#(B
+      * 
+-     * @return BUFFER_OK: Àµ¾ï½ªÎ»
+-     *         NOT_SUPPORTED: ¥ê¥»¥Ã¥ÈÉÔ²ÄÇ½
+-     *         BUFFER_ERROR: °Û¾ï½ªÎ»
++     * @return BUFFER_OK: $B@5>o=*N;(B
++     *         NOT_SUPPORTED: $B%j%;%C%HIT2DG=(B
++     *         BUFFER_ERROR: $B0[>o=*N;(B
+      * 
+      * @else
+      *
+@@ -285,12 +285,12 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤Î¸½ºß¤Î½ñ¹þ¤ßÍ×ÁÇ¤Î¥Ý¥¤¥ó¥¿
++     * @brief $B%P%C%U%!$N8=:_$N=q9~$_MWAG$N%]%$%s%?(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡¤Î¸½ºß¤Î½ñ¹þ¤ßÍ×ÁÇ¤Î¥Ý¥¤¥ó¥¿¤Þ¤¿¤Ï¡¢n¸ÄÀè¤Î¥Ý¥¤¥ó¥¿¤òÊÖ¤¹
++     * $B%P%C%U%!$N8=:_$N=q9~$_MWAG$N%]%$%s%?$^$?$O!"(Bn$B8D@h$N%]%$%s%?$rJV$9(B
+      * 
+-     * @param  n ½ñ¹þ¤ß¥Ý¥¤¥ó¥¿ + n ¤Î°ÌÃÖ¤Î¥Ý¥¤¥ó¥¿ 
+-     * @return ½ñ¹þ¤ß°ÌÃÖ¤Î¥Ý¥¤¥ó¥¿
++     * @param  n $B=q9~$_%]%$%s%?(B + n $B$N0LCV$N%]%$%s%?(B 
++     * @return $B=q9~$_0LCV$N%]%$%s%?(B
+      * 
+      * @else
+      *
+@@ -311,14 +311,14 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ½ñ¹þ¤ß¥Ý¥¤¥ó¥¿¤ò¿Ê¤á¤ë
++     * @brief $B=q9~$_%]%$%s%?$r?J$a$k(B
+      * 
+-     * ¸½ºß¤Î½ñ¤­¹þ¤ß°ÌÃÖ¤Î¥Ý¥¤¥ó¥¿¤ò n ¸Ä¿Ê¤á¤ë¡£
+-     * ½ñ¤­¹þ¤ß²ÄÇ½¤ÊÍ×ÁÇ¿ô°Ê¾å¤Î¿ôÃÍ¤ò»ØÄê¤·¤¿¾ì¹ç¡¢PRECONDITION_NOT_MET
+-     * ¤òÊÖ¤¹¡£
++     * $B8=:_$N=q$-9~$_0LCV$N%]%$%s%?$r(B n $B8D?J$a$k!#(B
++     * $B=q$-9~$_2DG=$JMWAG?t0J>e$N?tCM$r;XDj$7$?>l9g!"(BPRECONDITION_NOT_MET
++     * $B$rJV$9!#(B
+      * 
+-     * @param  n ½ñ¹þ¤ß¥Ý¥¤¥ó¥¿ + n ¤Î°ÌÃÖ¤Î¥Ý¥¤¥ó¥¿ 
+-     * @return BUFFER_OK:            Àµ¾ï½ªÎ»
++     * @param  n $B=q9~$_%]%$%s%?(B + n $B$N0LCV$N%]%$%s%?(B 
++     * @return BUFFER_OK:            $B@5>o=*N;(B
+      *         PRECONDITION_NOT_MET: n > writable()
+      * 
+      * @else
+@@ -340,8 +340,8 @@
+       //     n satisfies n'<= readable elements
+       //                 n'<= m_fillcount
+       //                 n >= - m_fillcount
+-      if (n > 0 && n > static_cast<long int>(m_length - m_fillcount) ||
+-          n < 0 && n < static_cast<long int>(-m_fillcount))
++      if ((n > 0 && n > static_cast<long int>(m_length - m_fillcount)) ||
++          (n < 0 && n < static_cast<long int>(-m_fillcount)))
+         {
+           return ::RTC::BufferStatus::PRECONDITION_NOT_MET;
+         }
+@@ -355,15 +355,15 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤Ë¥Ç¡¼¥¿¤ò½ñ¤­¹þ¤à
++     * @brief $B%P%C%U%!$K%G!<%?$r=q$-9~$`(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡¤Ë¥Ç¡¼¥¿¤ò½ñ¤­¹þ¤à¡£½ñ¤­¹þ¤ß¥Ý¥¤¥ó¥¿¤Î°ÌÃÖ¤ÏÊÑ¹¹¤µ¤ì¤Ê¤¤¡£
+-     * ¤³¤Î¼ÂÁõ¤Ç¤Ï¾ï¤Ë BUFFER_OK ¤òÊÖ¤¹¡£
++     * $B%P%C%U%!$K%G!<%?$r=q$-9~$`!#=q$-9~$_%]%$%s%?$N0LCV$OJQ99$5$l$J$$!#(B
++     * $B$3$N<BAu$G$O>o$K(B BUFFER_OK $B$rJV$9!#(B
+      * 
+-     * @param value ½ñ¤­¹þ¤ßÂÐ¾Ý¥Ç¡¼¥¿
++     * @param value $B=q$-9~$_BP>]%G!<%?(B
+      *
+-     * @return BUFFER_OK: Àµ¾ï½ªÎ»
+-     *         BUFFER_ERROR: °Û¾ï½ªÎ»
++     * @return BUFFER_OK: $B@5>o=*N;(B
++     *         BUFFER_ERROR: $B0[>o=*N;(B
+      * 
+      * @else
+      *
+@@ -389,31 +389,31 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤Ë½ñ¤­¹þ¤à
++     * @brief $B%P%C%U%!$K=q$-9~$`(B
+      * 
+-     * °ú¿ô¤ÇÍ¿¤¨¤é¤ì¤¿¥Ç¡¼¥¿¤ò¥Ð¥Ã¥Õ¥¡¤Ë½ñ¤­¹þ¤à¡£
++     * $B0z?t$GM?$($i$l$?%G!<%?$r%P%C%U%!$K=q$-9~$`!#(B
+      *
+-     * Âè2°ú¿ô(sec)¡¢Âè3°ú¿ô(nsec)¤¬»ØÄê¤µ¤ì¤Æ¤¤¤Ê¤¤¾ì¹ç¡¢¥Ð¥Ã¥Õ¥¡¥Õ¥ë
+-     * »þ¤Î½ñ¹þ¤ß¥â¡¼¥É (overwrite, do_nothing, block) ¤Ï init() ¤ÇÀßÄê
+-     * ¤µ¤ì¤¿¥â¡¼¥É¤Ë½¾¤¦¡£
+-     *
+-     * Âè2°ú¿ô(sec) ¤Ë°ú¿ô¤¬»ØÄê¤µ¤ì¤¿¾ì¹ç¤Ï¡¢init() ¤ÇÀßÄê¤µ¤ì¤¿¥â¡¼¥É
+-     * ¤Ë´Ø¤ï¤é¤º¡¢block ¥â¡¼¥É¤È¤Ê¤ê¡¢¥Ð¥Ã¥Õ¥¡¤¬¥Õ¥ë¾õÂÖ¤Ç¤¢¤ì¤Ð»ØÄê»þ
+-     * ´Ö¤Þ¤Á¡¢¥¿¥¤¥à¥¢¥¦¥È¤¹¤ë¡£Âè3°ú¿ô(nsec)¤Ï»ØÄê¤µ¤ì¤Ê¤¤¾ì¹ç0¤È¤·¤Æ
+-     * °·¤ï¤ì¤ë¡£¥¿¥¤¥à¥¢¥¦¥ÈÂÔ¤ÁÃæ¤Ë¡¢ÆÉ¤ß½Ð¤·¥¹¥ì¥Ã¥ÉÂ¦¤Ç¥Ð¥Ã¥Õ¥¡¤«¤é
+-     * ÆÉ¤ß½Ð¤»¤Ð¡¢¥Ö¥í¥Ã¥­¥ó¥°¤Ï²ò½ü¤µ¤ì¥Ç¡¼¥¿¤¬½ñ¤­¹þ¤Þ¤ì¤ë¡£
+-     *
+-     * ½ñ¤­¹þ¤ß»þ¤Ë¥Ð¥Ã¥Õ¥¡¤¬¶õ(empty)¾õÂÖ¤Ç¡¢ÊÌ¤Î¥¹¥ì¥Ã¥É¤¬block¥â¡¼¥É
+-     * ¤ÇÆÉ¤ß½Ð¤·ÂÔ¤Á¤ò¤·¤Æ¤¤¤ë¾ì¹ç¡¢signal¤òÈ¯¹Ô¤·¤ÆÆÉ¤ß½Ð¤·Â¦¤Î¥Ö¥í¥Ã
+-     * ¥­¥ó¥°¤¬²ò½ü¤µ¤ì¤ë¡£
+-     * 
+-     * @param value ½ñ¤­¹þ¤ßÂÐ¾Ý¥Ç¡¼¥¿
+-     * @param sec   ¥¿¥¤¥à¥¢¥¦¥È»þ´Ö sec  (default -1: Ìµ¸ú)
+-     * @param nsec  ¥¿¥¤¥à¥¢¥¦¥È»þ´Ö nsec (default 0)
+-     * @return BUFFER_OK            Àµ¾ï½ªÎ»
+-     *         BUFFER_FULL          ¥Ð¥Ã¥Õ¥¡¤¬¥Õ¥ë¾õÂÖ
+-     *         TIMEOUT              ½ñ¹þ¤ß¤¬¥¿¥¤¥à¥¢¥¦¥È¤·¤¿
+-     *         PRECONDITION_NOT_MET ÀßÄê°Û¾ï
++     * $BBh(B2$B0z?t(B(sec)$B!"Bh(B3$B0z?t(B(nsec)$B$,;XDj$5$l$F$$$J$$>l9g!"%P%C%U%!%U%k(B
++     * $B;~$N=q9~$_%b!<%I(B (overwrite, do_nothing, block) $B$O(B init() $B$G@_Dj(B
++     * $B$5$l$?%b!<%I$K=>$&!#(B
++     *
++     * $BBh(B2$B0z?t(B(sec) $B$K0z?t$,;XDj$5$l$?>l9g$O!"(Binit() $B$G@_Dj$5$l$?%b!<%I(B
++     * $B$K4X$o$i$:!"(Bblock $B%b!<%I$H$J$j!"%P%C%U%!$,%U%k>uBV$G$"$l$P;XDj;~(B
++     * $B4V$^$A!"%?%$%`%"%&%H$9$k!#Bh(B3$B0z?t(B(nsec)$B$O;XDj$5$l$J$$>l9g(B0$B$H$7$F(B
++     * $B07$o$l$k!#%?%$%`%"%&%HBT$ACf$K!"FI$_=P$7%9%l%C%IB&$G%P%C%U%!$+$i(B
++     * $BFI$_=P$;$P!"%V%m%C%-%s%0$O2r=|$5$l%G!<%?$,=q$-9~$^$l$k!#(B
++     *
++     * $B=q$-9~$_;~$K%P%C%U%!$,6u(B(empty)$B>uBV$G!"JL$N%9%l%C%I$,(Bblock$B%b!<%I(B
++     * $B$GFI$_=P$7BT$A$r$7$F$$$k>l9g!"(Bsignal$B$rH/9T$7$FFI$_=P$7B&$N%V%m%C(B
++     * $B%-%s%0$,2r=|$5$l$k!#(B
++     * 
++     * @param value $B=q$-9~$_BP>]%G!<%?(B
++     * @param sec   $B%?%$%`%"%&%H;~4V(B sec  (default -1: $BL58z(B)
++     * @param nsec  $B%?%$%`%"%&%H;~4V(B nsec (default 0)
++     * @return BUFFER_OK            $B@5>o=*N;(B
++     *         BUFFER_FULL          $B%P%C%U%!$,%U%k>uBV(B
++     *         TIMEOUT              $B=q9~$_$,%?%$%`%"%&%H$7$?(B
++     *         PRECONDITION_NOT_MET $B@_Dj0[>o(B
+      * 
+      * @else
+      *
+@@ -430,8 +430,9 @@
+     virtual ReturnCode write(const DataType& value,
+                              long int sec = -1, long int nsec = 0)
+     {
++      {
+       Guard guard(m_full.mutex);
+-      
++        
+       if (full())
+         {
+           
+@@ -470,12 +471,11 @@
+               return ::RTC::BufferStatus::PRECONDITION_NOT_MET;
+             }
+         }
+-      
+-      bool empty_(empty());
+-      
++      }      
++    
+       put(value);
+       
+-      if (empty_)
++      if (empty())
+         {
+           Guard eguard(m_empty.mutex);
+           advanceWptr(1);
+@@ -491,11 +491,11 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤Ë½ñ¹þ¤ß²ÄÇ½¤ÊÍ×ÁÇ¿ô
++     * @brief $B%P%C%U%!$K=q9~$_2DG=$JMWAG?t(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡¤Ë½ñ¹þ¤ß²ÄÇ½¤ÊÍ×ÁÇ¿ô¤òÊÖ¤¹¡£
++     * $B%P%C%U%!$K=q9~$_2DG=$JMWAG?t$rJV$9!#(B
+      * 
+-     * @return ½ñ¤­¹þ¤ß²ÄÇ½¤ÊÍ×ÁÇ¿ô
++     * @return $B=q$-9~$_2DG=$JMWAG?t(B
+      * 
+      * @else
+      *
+@@ -518,11 +518,11 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡full¥Á¥§¥Ã¥¯
++     * @brief $B%P%C%U%!(Bfull$B%A%'%C%/(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡full¥Á¥§¥Ã¥¯ÍÑ½ã¿è²¾ÁÛ´Ø¿ô
++     * $B%P%C%U%!(Bfull$B%A%'%C%/MQ=c?h2>A[4X?t(B
+      *
+-     * @return full¥Á¥§¥Ã¥¯·ë²Ì(true:¥Ð¥Ã¥Õ¥¡full¡¤false:¥Ð¥Ã¥Õ¥¡¶õ¤­¤¢¤ê)
++     * @return full$B%A%'%C%/7k2L(B(true:$B%P%C%U%!(Bfull$B!$(Bfalse:$B%P%C%U%!6u$-$"$j(B)
+      * 
+      * @else
+      *
+@@ -544,12 +544,12 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤Î¸½ºß¤ÎÆÉ¤ß½Ð¤·Í×ÁÇ¤Î¥Ý¥¤¥ó¥¿
++     * @brief $B%P%C%U%!$N8=:_$NFI$_=P$7MWAG$N%]%$%s%?(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡¤Î¸½ºß¤ÎÆÉ¤ß½Ð¤·Í×ÁÇ¤Î¥Ý¥¤¥ó¥¿¤Þ¤¿¤Ï¡¢n¸ÄÀè¤Î¥Ý¥¤¥ó¥¿¤òÊÖ¤¹
++     * $B%P%C%U%!$N8=:_$NFI$_=P$7MWAG$N%]%$%s%?$^$?$O!"(Bn$B8D@h$N%]%$%s%?$rJV$9(B
+      * 
+-     * @param  n ÆÉ¤ß½Ð¤·¥Ý¥¤¥ó¥¿ + n ¤Î°ÌÃÖ¤Î¥Ý¥¤¥ó¥¿ 
+-     * @return ÆÉ¤ß½Ð¤·°ÌÃÖ¤Î¥Ý¥¤¥ó¥¿
++     * @param  n $BFI$_=P$7%]%$%s%?(B + n $B$N0LCV$N%]%$%s%?(B 
++     * @return $BFI$_=P$70LCV$N%]%$%s%?(B
+      * 
+      * @else
+      *
+@@ -570,13 +570,13 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ÆÉ¤ß½Ð¤·¥Ý¥¤¥ó¥¿¤ò¿Ê¤á¤ë
++     * @brief $BFI$_=P$7%]%$%s%?$r?J$a$k(B
+      * 
+-     * ¸½ºß¤ÎÆÉ¤ß½Ð¤·°ÌÃÖ¤Î¥Ý¥¤¥ó¥¿¤ò n ¸Ä¿Ê¤á¤ë¡£
++     * $B8=:_$NFI$_=P$70LCV$N%]%$%s%?$r(B n $B8D?J$a$k!#(B
+      * 
+-     * @param  n ÆÉ¤ß½Ð¤·¥Ý¥¤¥ó¥¿ + n ¤Î°ÌÃÖ¤Î¥Ý¥¤¥ó¥¿ 
+-     * @return BUFFER_OK: Àµ¾ï½ªÎ»
+-     *         BUFFER_ERROR: °Û¾ï½ªÎ»
++     * @param  n $BFI$_=P$7%]%$%s%?(B + n $B$N0LCV$N%]%$%s%?(B 
++     * @return BUFFER_OK: $B@5>o=*N;(B
++     *         BUFFER_ERROR: $B0[>o=*N;(B
+      * 
+      * @else
+      *
+@@ -611,14 +611,14 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤«¤é¥Ç¡¼¥¿¤òÆÉ¤ß½Ð¤¹
++     * @brief $B%P%C%U%!$+$i%G!<%?$rFI$_=P$9(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡¤«¤é¥Ç¡¼¥¿¤òÆÉ¤ß¤À¤¹¡£ÆÉ¤ß½Ð¤·¥Ý¥¤¥ó¥¿¤Î°ÌÃÖ¤ÏÊÑ¹¹¤µ¤ì¤Ê¤¤¡£
++     * $B%P%C%U%!$+$i%G!<%?$rFI$_$@$9!#FI$_=P$7%]%$%s%?$N0LCV$OJQ99$5$l$J$$!#(B
+      * 
+-     * @param value ÆÉ¤ß½Ð¤·¥Ç¡¼¥¿
++     * @param value $BFI$_=P$7%G!<%?(B
+      *
+-     * @return BUFFER_OK: Àµ¾ï½ªÎ»
+-     *         BUFFER_ERROR: °Û¾ï½ªÎ»
++     * @return BUFFER_OK: $B@5>o=*N;(B
++     *         BUFFER_ERROR: $B0[>o=*N;(B
+      * 
+      * @else
+      *
+@@ -643,11 +643,11 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤«¤é¥Ç¡¼¥¿¤òÆÉ¤ß½Ð¤¹
++     * @brief $B%P%C%U%!$+$i%G!<%?$rFI$_=P$9(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡¤«¤é¥Ç¡¼¥¿¤òÆÉ¤ß¤À¤¹¡£ÆÉ¤ß½Ð¤·¥Ý¥¤¥ó¥¿¤Î°ÌÃÖ¤ÏÊÑ¹¹¤µ¤ì¤Ê¤¤¡£
++     * $B%P%C%U%!$+$i%G!<%?$rFI$_$@$9!#FI$_=P$7%]%$%s%?$N0LCV$OJQ99$5$l$J$$!#(B
+      *
+-     * @return ÆÉ¤ß½Ð¤·¥Ç¡¼¥¿
++     * @return $BFI$_=P$7%G!<%?(B
+      * 
+      * @else
+      *
+@@ -667,31 +667,31 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤«¤éÆÉ¤ß½Ð¤¹
++     * @brief $B%P%C%U%!$+$iFI$_=P$9(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡¤Ë³ÊÇ¼¤µ¤ì¤¿¥Ç¡¼¥¿¤òÆÉ¤ß½Ð¤¹¡£
++     * $B%P%C%U%!$K3JG<$5$l$?%G!<%?$rFI$_=P$9!#(B
+      *
+-     * Âè2°ú¿ô(sec)¡¢Âè3°ú¿ô(nsec)¤¬»ØÄê¤µ¤ì¤Æ¤¤¤Ê¤¤¾ì¹ç¡¢¥Ð¥Ã¥Õ¥¡¶õ¾õ
+-     * ÂÖ¤Ç¤ÎÆÉ¤ß½Ð¤·¥â¡¼¥É (readback, do_nothing, block) ¤Ï init() ¤ÇÀß
+-     * Äê¤µ¤ì¤¿¥â¡¼¥É¤Ë½¾¤¦¡£
+-     *
+-     * Âè2°ú¿ô(sec) ¤Ë°ú¿ô¤¬»ØÄê¤µ¤ì¤¿¾ì¹ç¤Ï¡¢init() ¤ÇÀßÄê¤µ¤ì¤¿¥â¡¼¥É
+-     * ¤Ë´Ø¤ï¤é¤º¡¢block ¥â¡¼¥É¤È¤Ê¤ê¡¢¥Ð¥Ã¥Õ¥¡¤¬¶õ¾õÂÖ¤Ç¤¢¤ì¤Ð»ØÄê»þ´Ö
+-     * ÂÔ¤Á¡¢¥¿¥¤¥à¥¢¥¦¥È¤¹¤ë¡£Âè3°ú¿ô(nsec)¤Ï»ØÄê¤µ¤ì¤Ê¤¤¾ì¹ç0¤È¤·¤Æ°·
+-     * ¤ï¤ì¤ë¡£¥¿¥¤¥à¥¢¥¦¥ÈÂÔ¤ÁÃæ¤Ë¡¢½ñ¹þ¤ß¥¹¥ì¥Ã¥ÉÂ¦¤Ç¥Ð¥Ã¥Õ¥¡¤Ø½ñ¹þ¤ß
+-     * ¤¬¤¢¤ì¤Ð¡¢¥Ö¥í¥Ã¥­¥ó¥°¤Ï²ò½ü¤µ¤ì¥Ç¡¼¥¿¤¬ÆÉ¤ß¤À¤µ¤ì¤ë¡£
+-     *
+-     * ÆÉ¤ß½Ð¤·»þ¤Ë¥Ð¥Ã¥Õ¥¡¤¬¶õ(empty)¾õÂÖ¤Ç¡¢ÊÌ¤Î¥¹¥ì¥Ã¥É¤¬block¥â¡¼¥É
+-     * ¤Ç½ñ¹þ¤ßÂÔ¤Á¤ò¤·¤Æ¤¤¤ë¾ì¹ç¡¢signal¤òÈ¯¹Ô¤·¤Æ½ñ¹þ¤ßÂ¦¤Î¥Ö¥í¥Ã¥­¥ó
+-     * ¥°¤¬²ò½ü¤µ¤ì¤ë¡£
+-     * 
+-     * @param value ÆÉ¤ß½Ð¤·ÂÐ¾Ý¥Ç¡¼¥¿
+-     * @param sec   ¥¿¥¤¥à¥¢¥¦¥È»þ´Ö sec  (default -1: Ìµ¸ú)
+-     * @param nsec  ¥¿¥¤¥à¥¢¥¦¥È»þ´Ö nsec (default 0)
+-     * @return BUFFER_OK            Àµ¾ï½ªÎ»
+-     *         BUFFER_EMPTY         ¥Ð¥Ã¥Õ¥¡¤¬¶õ¾õÂÖ
+-     *         TIMEOUT              ½ñ¹þ¤ß¤¬¥¿¥¤¥à¥¢¥¦¥È¤·¤¿
+-     *         PRECONDITION_NOT_MET ÀßÄê°Û¾ï
++     * $BBh(B2$B0z?t(B(sec)$B!"Bh(B3$B0z?t(B(nsec)$B$,;XDj$5$l$F$$$J$$>l9g!"%P%C%U%!6u>u(B
++     * $BBV$G$NFI$_=P$7%b!<%I(B (readback, do_nothing, block) $B$O(B init() $B$G@_(B
++     * $BDj$5$l$?%b!<%I$K=>$&!#(B
++     *
++     * $BBh(B2$B0z?t(B(sec) $B$K0z?t$,;XDj$5$l$?>l9g$O!"(Binit() $B$G@_Dj$5$l$?%b!<%I(B
++     * $B$K4X$o$i$:!"(Bblock $B%b!<%I$H$J$j!"%P%C%U%!$,6u>uBV$G$"$l$P;XDj;~4V(B
++     * $BBT$A!"%?%$%`%"%&%H$9$k!#Bh(B3$B0z?t(B(nsec)$B$O;XDj$5$l$J$$>l9g(B0$B$H$7$F07(B
++     * $B$o$l$k!#%?%$%`%"%&%HBT$ACf$K!"=q9~$_%9%l%C%IB&$G%P%C%U%!$X=q9~$_(B
++     * $B$,$"$l$P!"%V%m%C%-%s%0$O2r=|$5$l%G!<%?$,FI$_$@$5$l$k!#(B
++     *
++     * $BFI$_=P$7;~$K%P%C%U%!$,6u(B(empty)$B>uBV$G!"JL$N%9%l%C%I$,(Bblock$B%b!<%I(B
++     * $B$G=q9~$_BT$A$r$7$F$$$k>l9g!"(Bsignal$B$rH/9T$7$F=q9~$_B&$N%V%m%C%-%s(B
++     * $B%0$,2r=|$5$l$k!#(B
++     * 
++     * @param value $BFI$_=P$7BP>]%G!<%?(B
++     * @param sec   $B%?%$%`%"%&%H;~4V(B sec  (default -1: $BL58z(B)
++     * @param nsec  $B%?%$%`%"%&%H;~4V(B nsec (default 0)
++     * @return BUFFER_OK            $B@5>o=*N;(B
++     *         BUFFER_EMPTY         $B%P%C%U%!$,6u>uBV(B
++     *         TIMEOUT              $B=q9~$_$,%?%$%`%"%&%H$7$?(B
++     *         PRECONDITION_NOT_MET $B@_Dj0[>o(B
+      * 
+      * @else
+      *
+@@ -708,6 +708,7 @@
+     virtual ReturnCode read(DataType& value,
+                             long int sec = -1, long int nsec = 0)
+     {
++      {
+       Guard gaurd(m_empty.mutex);
+       
+       if (empty())
+@@ -753,32 +754,34 @@
+               return ::RTC::BufferStatus::PRECONDITION_NOT_MET;
+             }
+         }
+-      
+-      bool full_(full());
++      }
+       
+       get(value);
+-      advanceRptr();
+ 
+-      if (full_)
++      if (full())
+         {
+           Guard fguard(m_full.mutex);
++          advanceRptr(1);
+           m_full.cond.signal();
+         }
+-      
++      else
++        {
++          advanceRptr(1);
++        }
+       return ::RTC::BufferStatus::BUFFER_OK;
+     }
+     
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤«¤éÆÉ¤ß½Ð¤·²ÄÇ½¤ÊÍ×ÁÇ¿ô
++     * @brief $B%P%C%U%!$+$iFI$_=P$72DG=$JMWAG?t(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡¤«¤éÆÉ¤ß½Ð¤·²ÄÇ½¤ÊÍ×ÁÇ¿ô¤òÊÖ¤¹¡£
++     * $B%P%C%U%!$+$iFI$_=P$72DG=$JMWAG?t$rJV$9!#(B
+      * 
+-     * @return ÆÉ¤ß½Ð¤·²ÄÇ½¤ÊÍ×ÁÇ¿ô
++     * @return $BFI$_=P$72DG=$JMWAG?t(B
+      *
+-     * @return BUFFER_OK: Àµ¾ï½ªÎ»
+-     *         BUFFER_ERROR: °Û¾ï½ªÎ»
++     * @return BUFFER_OK: $B@5>o=*N;(B
++     *         BUFFER_ERROR: $B0[>o=*N;(B
+      * 
+      * @else
+      *
+@@ -801,11 +804,11 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡empty¥Á¥§¥Ã¥¯
++     * @brief $B%P%C%U%!(Bempty$B%A%'%C%/(B
+      * 
+-     * ¥Ð¥Ã¥Õ¥¡empty¥Á¥§¥Ã¥¯ÍÑ½ã¿è²¾ÁÛ´Ø¿ô
++     * $B%P%C%U%!(Bempty$B%A%'%C%/MQ=c?h2>A[4X?t(B
+      *
+-     * @return empty¥Á¥§¥Ã¥¯·ë²Ì(true:¥Ð¥Ã¥Õ¥¡empty¡¤false:¥Ð¥Ã¥Õ¥¡¥Ç¡¼¥¿¤¢¤ê)
++     * @return empty$B%A%'%C%/7k2L(B(true:$B%P%C%U%!(Bempty$B!$(Bfalse:$B%P%C%U%!%G!<%?$"$j(B)
+      * 
+      * @else
+      *
+@@ -897,7 +900,7 @@
+   private:
+     /*!
+      * @if jp
+-     * @brief ¾å½ñ¤­¥Õ¥é¥°
++     * @brief $B>e=q$-%U%i%0(B
+      * @else
+      * @brief Overwrite flag
+      * @endif
+@@ -906,7 +909,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ÆÉ¤ßÌá¤·¥Õ¥é¥°
++     * @brief $BFI$_La$7%U%i%0(B
+      * @else
+      * @brief Readback flag
+      * @endif
+@@ -915,7 +918,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ¥¿¥¤¥à¥¢¥¦¥ÈÉÕ¤­½ñ¤­¹þ¤ß¥Õ¥é¥°
++     * @brief $B%?%$%`%"%&%HIU$-=q$-9~$_%U%i%0(B
+      * @else
+      * @brief Timedwrite flag
+      * @endif
+@@ -923,7 +926,7 @@
+     bool m_timedwrite;
+     /*!
+      * @if jp
+-     * @brief ¥¿¥¤¥à¥¢¥¦¥ÈÉÕ¤­ÆÉ¤ß½Ð¤·¥Õ¥é¥°
++     * @brief $B%?%$%`%"%&%HIU$-FI$_=P$7%U%i%0(B
+      * @else
+      * @brief Timedread flag
+      * @endif
+@@ -932,7 +935,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ½ñ¤­¹þ¤ß»þ¥¿¥¤¥à¥¢¥¦¥È
++     * @brief $B=q$-9~$_;~%?%$%`%"%&%H(B
+      * @else
+      * @brief Timeout time for writing
+      * @endif
+@@ -941,7 +944,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ÆÉ¤ß½Ð¤·»þ¥¿¥¤¥à¥¢¥¦¥È
++     * @brief $BFI$_=P$7;~%?%$%`%"%&%H(B
+      * @else
+      * @brief Timeout time of reading
+      * @endif
+@@ -950,7 +953,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ¥Ð¥Ã¥Õ¥¡Ä¹
++     * @brief $B%P%C%U%!D9(B
+      * @else
+      * @brief Buffer length
+      * @endif
+@@ -959,7 +962,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ½ñ¤­¹þ¤ß¥Ý¥¤¥ó¥¿
++     * @brief $B=q$-9~$_%]%$%s%?(B
+      * @else
+      * @brief pointer to write
+      * @endif
+@@ -968,7 +971,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ÆÉ¤ß½Ð¤·¥Ý¥¤¥ó¥¿
++     * @brief $BFI$_=P$7%]%$%s%?(B
+      * @else
+      * @brief poitner to read
+      * @endif
+@@ -977,7 +980,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief Fill¥«¥¦¥ó¥È
++     * @brief Fill$B%+%&%s%H(B
+      * @else
+      * @brief Fill count
+      * @endif
+@@ -986,7 +989,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ½ñ¤­¹þ¤ß¥«¥¦¥ó¥È
++     * @brief $B=q$-9~$_%+%&%s%H(B
+      * @else
+      * @brief Counter for writing
+      * @endif
+@@ -995,7 +998,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ¥Ð¥Ã¥Õ¥¡ÇÛÎó
++     * @brief $B%P%C%U%!G[Ns(B
+      * @else
+      * @brief baffer array
+      * @endif
+@@ -1004,7 +1007,7 @@
+     
+     /*!
+      * @if jp
+-     * @brief ¾ò·ïÊÑ¿ô¹½Â¤ÂÎ
++     * @brief $B>r7oJQ?t9=B$BN(B
+      * @else
+      * @brief struct for condition variable
+      * @endif
+@@ -1018,7 +1021,7 @@
+     
+     /*!
+      * @if jp
+-     * @brief °ÌÃÖÊÑ¿ô¥ß¥å¡¼¥Æ¥Ã¥¯¥¹
++     * @brief $B0LCVJQ?t%_%e!<%F%C%/%9(B
+      * @else
+      * @brief mutex for position variable
+      * @endif
+@@ -1027,7 +1030,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ¶õ¾ò·ïÊÑ¿ô
++     * @brief $B6u>r7oJQ?t(B
+      * @else
+      * @brief empty condition variable
+      * @endif
+@@ -1036,7 +1039,7 @@
+ 
+     /*!
+      * @if jp
+-     * @brief ËþÇÕ¾ò·ïÊÑ¿ô
++     * @brief $BK~GU>r7oJQ?t(B
+      * @else
+      * @brief full condition variable
+      * @endif

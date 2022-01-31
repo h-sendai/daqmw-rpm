@@ -1,0 +1,662 @@
+--- OpenRTM-aist-r1971/src/lib/rtm/InPort.h.orig	2010-06-24 09:22:51.000000000 +0900
++++ OpenRTM-aist-r1971/src/lib/rtm/InPort.h	2010-06-24 09:10:45.000000000 +0900
+@@ -13,7 +13,7 @@
+  *         Advanced Industrial Science and Technology (AIST), Japan
+  *     All rights reserved.
+  *
+- * $Id: InPort.h 1971 2010-06-03 08:46:40Z n-ando $
++ * $Id: InPort.h 1865 2010-02-15 01:23:02Z kurihara $
+  *
+  */
+ 
+@@ -42,111 +42,111 @@
+    *
+    * @class InPort
+    *
+-   * @brief InPort ¥Æ¥ó¥×¥ì¡¼¥È¥¯¥é¥¹
++   * @brief InPort $B%F%s%W%l!<%H%/%i%9(B
+    * 
+-   * InPort ¤Î¼ÂÁõ¤Ç¤¢¤ë InPort<T> ¤Î¥Æ¥ó¥×¥ì¡¼¥È¥¯¥é¥¹¡£
+-   * <T> ¤ÏBasicDataType.idl ¤Ë¤ÆÄêµÁ¤µ¤ì¤Æ¤¤¤ë·¿¤Ç¡¢¥á¥ó¥Ð¤È¤·¤Æ
+-   * Time ·¿¤Î tm , ¤ª¤è¤Ó T·¿¤Î data ¤ò»ý¤Ä¹½Â¤ÂÎ¤Ç¤Ê¤¯¤Æ¤Ï¤Ê¤é¤Ê¤¤¡£
+-   * InPort ¤ÏÆâÉô¤Ë¥ê¥ó¥°¥Ð¥Ã¥Õ¥¡¤ò»ý¤Á¡¢³°Éô¤«¤éÁ÷¿®¤µ¤ì¤¿¥Ç¡¼¥¿¤ò½ç¼¡
+-   * ¤³¤Î¥ê¥ó¥°¥Ð¥Ã¥Õ¥¡¤Ë³ÊÇ¼¤¹¤ë¡£¥ê¥ó¥°¥Ð¥Ã¥Õ¥¡¤Î¥µ¥¤¥º¤Ï¥Ç¥Õ¥©¥ë¥È¤Ç64¤È
+-   * ¤Ê¤Ã¤Æ¤¤¤ë¤¬¡¢¥³¥ó¥¹¥È¥é¥¯¥¿°ú¿ô¤Ë¤è¤ê¥µ¥¤¥º¤ò»ØÄê¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë¡£
+-   * ¥Ç¡¼¥¿¤Ï¥Õ¥é¥°¤Ë¤è¤Ã¤ÆÌ¤ÆÉ¡¢´ûÆÉ¾õÂÖ¤¬´ÉÍý¤µ¤ì¡¢isNew(), write(), read(),
+-   * isFull(), isEmpty() Åù¤Î¥á¥½¥Ã¥É¤Ë¤è¤ê¥Ï¥ó¥É¥ê¥ó¥°¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë¡£
++   * InPort $B$N<BAu$G$"$k(B InPort<T> $B$N%F%s%W%l!<%H%/%i%9!#(B
++   * <T> $B$O(BBasicDataType.idl $B$K$FDj5A$5$l$F$$$k7?$G!"%a%s%P$H$7$F(B
++   * Time $B7?$N(B tm , $B$*$h$S(B T$B7?$N(B data $B$r;}$D9=B$BN$G$J$/$F$O$J$i$J$$!#(B
++   * InPort $B$OFbIt$K%j%s%0%P%C%U%!$r;}$A!"30It$+$iAw?.$5$l$?%G!<%?$r=g<!(B
++   * $B$3$N%j%s%0%P%C%U%!$K3JG<$9$k!#%j%s%0%P%C%U%!$N%5%$%:$O%G%U%)%k%H$G(B64$B$H(B
++   * $B$J$C$F$$$k$,!"%3%s%9%H%i%/%?0z?t$K$h$j%5%$%:$r;XDj$9$k$3$H$,$G$-$k!#(B
++   * $B%G!<%?$O%U%i%0$K$h$C$FL$FI!"4{FI>uBV$,4IM}$5$l!"(BisNew(), write(), read(),
++   * isFull(), isEmpty() $BEy$N%a%=%C%I$K$h$j%O%s%I%j%s%0$9$k$3$H$,$G$-$k!#(B
+    *
+    *
+    *   
+-   * OnRead·Ï¥³¡¼¥ë¥Ð¥Ã¥¯ (ÆÉ¤ß½Ð¤·¤Ëµ¯°ø¤¹¤ë¥¤¥Ù¥ó¥È¤Ë¤è¤ê¥³¡¼¥ë¤µ¤ì¤ë)
++   * OnRead$B7O%3!<%k%P%C%/(B ($BFI$_=P$7$K5/0x$9$k%$%Y%s%H$K$h$j%3!<%k$5$l$k(B)
+    *
+    * - void OnRead::operator(): 
+-   *     InPort::read() ¤ò¸Æ¤Ó½Ð¤·ÆÉ¤ß½Ð¤·¤ò¹Ô¤¦ºÝ¤Ë¥³¡¼¥ë¤µ¤ì¤ë¡£
++   *     InPort::read() $B$r8F$S=P$7FI$_=P$7$r9T$&:]$K%3!<%k$5$l$k!#(B
+    *
+    * - DataType OnReadConvert::operator(DataType): 
+-   *     InPort::read() ¤ò¸Æ¤Ó½Ð¤·¡¢¥Ç¡¼¥¿¤ò¥Ð¥Ã¥Õ¥¡¤«¤éÆÉ¤ß¤À¤¹ºÝ¤Ë¸Æ¤Ð¤ì
+-   *     ¥Ç¡¼¥¿¤ÎÊÑ´¹¤ò¹Ô¤¦¡£°ú¿ô¤Ë¤Ï¥Ð¥Ã¥Õ¥¡¤«¤éÆÉ¤ß½Ð¤µ¤ì¤¿ÃÍ¤¬Í¿¤¨¤é¤ì¡¢
+-   *     ÊÑ´¹¸å¤Î¥Ç¡¼¥¿¤òÌá¤êÃÍ¤È¤·¤ÆÊÖ¤¹¡£¤³¤ÎÃÍ¤¬read()¤ÎÊÖ¤¹ÃÍ¤È¤Ê¤ë¡£
++   *     InPort::read() $B$r8F$S=P$7!"%G!<%?$r%P%C%U%!$+$iFI$_$@$9:]$K8F$P$l(B
++   *     $B%G!<%?$NJQ49$r9T$&!#0z?t$K$O%P%C%U%!$+$iFI$_=P$5$l$?CM$,M?$($i$l!"(B
++   *     $BJQ498e$N%G!<%?$rLa$jCM$H$7$FJV$9!#$3$NCM$,(Bread()$B$NJV$9CM$H$J$k!#(B
+    *
+    *
+-   * OnBuffer·Ï¥³¡¼¥ë¥Ð¥Ã¥¯ (¥Ð¥Ã¥Õ¥¡¤Ëµ¯°ø¤¹¤ë¥¤¥Ù¥ó¥È¤Ë¤è¤ê¥³¡¼¥ë¤µ¤ì¤ë)
++   * OnBuffer$B7O%3!<%k%P%C%/(B ($B%P%C%U%!$K5/0x$9$k%$%Y%s%H$K$h$j%3!<%k$5$l$k(B)
+    *
+    * - void OnBufferOverwrite::operator(ConnectorId):
+-   *     ConnectorBase::write() ¥³¡¼¥ë»þ¤Ë¡¢¥Ð¥Ã¥Õ¥¡¤¬¾å½ñ¤­¥â¡¼¥É¤ËÀßÄê
+-   *     ¤µ¤ì¤Æ¤ª¤ê¡¢¥Ð¥Ã¥Õ¥¡¤¬¤¤¤Ã¤Ñ¤¤¤Î¾ì¹ç¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£
+-   *     ¥³¥Í¥¯¥¿¤ÎID¤¬°ú¿ô¤ËÍ¿¤¨¤é¤ì¤ë¡£
++   *     ConnectorBase::write() $B%3!<%k;~$K!"%P%C%U%!$,>e=q$-%b!<%I$K@_Dj(B
++   *     $B$5$l$F$*$j!"%P%C%U%!$,$$$C$Q$$$N>l9g$K8F$S=P$5$l$k%3!<%k%P%C%/!#(B
++   *     $B%3%M%/%?$N(BID$B$,0z?t$KM?$($i$l$k!#(B
+    *
+    * - void OnBufferEmpty::operator(ConnectorId): 
+-   *     ¥³¥Í¥¯¥¿¤¬¥Ð¥Ã¥Õ¥¡¤òÆÉ¤ß¤À¤¹ºÝ¤Ë¡¢¥Ð¥Ã¥Õ¥¡¤¬¶õ¤Î¾ì¹ç¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¡£
+-   *     ¥³¥Í¥¯¥¿¤ÎID¤¬°ú¿ô¤ËÍ¿¤¨¤é¤ì¤ë¡£
++   *     $B%3%M%/%?$,%P%C%U%!$rFI$_$@$9:]$K!"%P%C%U%!$,6u$N>l9g$K8F$S=P$5$l$k!#(B
++   *     $B%3%M%/%?$N(BID$B$,0z?t$KM?$($i$l$k!#(B
+    *
+    * - void OnBufferReadTimeout::operator(ConnectorId):
+-   *     ¥³¥Í¥¯¥¿¤¬¥Ð¥Ã¥Õ¥¡¤òÆÉ¤ß¤À¤¹ºÝ¤Ë¡¢¥Ð¥Ã¥Õ¥¡¤¬¶õ¤Ç¤«¤Ä¡¢ÆÉ¤ß½Ð¤·¤¬
+-   *     ¥¿¥¤¥à¥¢¥¦¥È¤·¤¿¾ì¹ç¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£¥³¥Í¥¯¥¿¤ÎID
+-   *     ¤¬°ú¿ô¤ËÍ¿¤¨¤é¤ì¤ë¡£
++   *     $B%3%M%/%?$,%P%C%U%!$rFI$_$@$9:]$K!"%P%C%U%!$,6u$G$+$D!"FI$_=P$7$,(B
++   *     $B%?%$%`%"%&%H$7$?>l9g$K8F$S=P$5$l$k%3!<%k%P%C%/!#%3%M%/%?$N(BID
++   *     $B$,0z?t$KM?$($i$l$k!#(B
+    *
+    * - void OnBufferFull::operator(ConnectorId, DataType):
+-   *     ConnectorBase::write() ¥³¡¼¥ë»þ¤Ë¡¢¥Ð¥Ã¥Õ¥¡¤¬¤¤¤Ã¤Ñ¤¤¤Î¾ì¹ç¤Ë
+-   *     ¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£¥³¥Í¥¯¥¿¤ÎID¤ª¤è¤Ó½ñ¤­¹þ¤á¤Ê¤«¤Ã¤¿¥Ç¡¼¥¿
+-   *     ¤¬°ú¿ô¤ËÍ¿¤¨¤é¤ì¤ë¡£
++   *     ConnectorBase::write() $B%3!<%k;~$K!"%P%C%U%!$,$$$C$Q$$$N>l9g$K(B
++   *     $B8F$S=P$5$l$k%3!<%k%P%C%/!#%3%M%/%?$N(BID$B$*$h$S=q$-9~$a$J$+$C$?%G!<%?(B
++   *     $B$,0z?t$KM?$($i$l$k!#(B
+    *
+    * - void OnBufferWriteTimeout::operator(ConnectorId, DataType):
+-   *     ConnectorBase::write() ¥³¡¼¥ë»þ¤Ë¡¢¥Ð¥Ã¥Õ¥¡¤¬¤¤¤Ã¤Ñ¤¤¤Ç½ñ¹þ¤ß¤¬
+-   *     ¥¿¥¤¥à¥¢¥¦¥È¤·¤¿¾ì¹ç¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£¥³¥Í¥¯¥¿¤ÎID
+-   *     ¤ª¤è¤Ó½ñ¤­¹þ¤á¤Ê¤«¤Ã¤¿¥Ç¡¼¥¿¤¬°ú¿ô¤ËÍ¿¤¨¤é¤ì¤ë¡£
++   *     ConnectorBase::write() $B%3!<%k;~$K!"%P%C%U%!$,$$$C$Q$$$G=q9~$_$,(B
++   *     $B%?%$%`%"%&%H$7$?>l9g$K8F$S=P$5$l$k%3!<%k%P%C%/!#%3%M%/%?$N(BID
++   *     $B$*$h$S=q$-9~$a$J$+$C$?%G!<%?$,0z?t$KM?$($i$l$k!#(B
+    *
+    *
+-   * OnConnect·Ï¥³¡¼¥ë¥Ð¥Ã¥¯ (ÀÜÂ³¤Ëµ¯°ø¤¹¤ë¥¤¥Ù¥ó¥È¤Ë¤è¤ê¥³¡¼¥ë¤µ¤ì¤ë)
++   * OnConnect$B7O%3!<%k%P%C%/(B ($B@\B3$K5/0x$9$k%$%Y%s%H$K$h$j%3!<%k$5$l$k(B)
+    * 
+    * - void OnConnect::operator(ConnectorProfile):
+-   *      ¥Ý¡¼¥È¤ÎÀÜÂ³»þ¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£°ú¿ô¤ËConnectorProfile
+-   *      ¤¬Í¿¤¨¤é¤ì¤ë¡£
++   *      $B%]!<%H$N@\B3;~$K8F$S=P$5$l$k%3!<%k%P%C%/!#0z?t$K(BConnectorProfile
++   *      $B$,M?$($i$l$k!#(B
+    *
+    * - void OnDisconnect::operator(ConnectorId):
+-   *      ¥Ý¡¼¥È¤ÎÀÜÂ³ÀÚÃÇ»þ¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£°ú¿ô¤Ë¥³¥Í¥¯¥¿ID
+-   *      ¤¬Í¿¤¨¤é¤ì¤ë¡£  
++   *      $B%]!<%H$N@\B3@ZCG;~$K8F$S=P$5$l$k%3!<%k%P%C%/!#0z?t$K%3%M%/%?(BID
++   *      $B$,M?$($i$l$k!#(B  
+    *
+    * - void OnConnectionLost::operator(ConnectorId):
+-   *      ¥Ý¡¼¥È¤ÎÀÜÂ³¤¬¥í¥¹¥È¤·¤¿¾ì¹ç¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£
+-   *      °ú¿ô¤Ë¥³¥Í¥¯¥¿ID¤¬Í¿¤¨¤é¤ì¤ë¡£InPort¤Ï¡¢Áê¼êÂ¦OutPort¤È¤Î
+-   *      ÀÜÂ³¤ò¥í¥¹¥È¤·¤¿¾ì¹ç¡¢ÀÜÂ³¤ò¶¯À©Åª¤ËÀÚÃÇ¤¹¤ë¤Î¤Ç¡¢
+-   *      °ú¤­Â³¤­ OnDisconnect ¥³¡¼¥ë¥Ð¥Ã¥¯¤¬¸Æ¤Ó½Ð¤µ¤ì¤ë¡£
++   *      $B%]!<%H$N@\B3$,%m%9%H$7$?>l9g$K8F$S=P$5$l$k%3!<%k%P%C%/!#(B
++   *      $B0z?t$K%3%M%/%?(BID$B$,M?$($i$l$k!#(BInPort$B$O!"Aj<jB&(BOutPort$B$H$N(B
++   *      $B@\B3$r%m%9%H$7$?>l9g!"@\B3$r6/@)E*$K@ZCG$9$k$N$G!"(B
++   *      $B0z$-B3$-(B OnDisconnect $B%3!<%k%P%C%/$,8F$S=P$5$l$k!#(B
+    *
+    *
+-   * OnReceive·Ï¥³¡¼¥ë¥Ð¥Ã¥¯ (Á÷¿®Â¦¤Ëµ¯°ø¤¹¤ë¥¤¥Ù¥ó¥È¤Ë¤è¤ê¥³¡¼¥ë¤µ¤ì¤ë)
++   * OnReceive$B7O%3!<%k%P%C%/(B ($BAw?.B&$K5/0x$9$k%$%Y%s%H$K$h$j%3!<%k$5$l$k(B)
+    *
+    * - void OnSend::operator(ConnectorId):
+-   *      ¥Ç¡¼¥¿¤¬InPort¤ËÂÐ¤·¤ÆÁ÷¤é¤ì¤ëºÝ¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£
+-   *      °ú¿ô¤Ë¥³¥Í¥¯¥¿ID¤¬Í¿¤¨¤é¤ì¤ë¡£
++   *      $B%G!<%?$,(BInPort$B$KBP$7$FAw$i$l$k:]$K8F$S=P$5$l$k%3!<%k%P%C%/!#(B
++   *      $B0z?t$K%3%M%/%?(BID$B$,M?$($i$l$k!#(B
+    *
+    * - void OnSenderTimeout::operator(ConnectorId):
+-   *      ¥Ç¡¼¥¿¤¬InPort¤ËÂÐ¤·¤ÆÁ÷¤é¤ì¤¿¤¬¡¢Á÷¿®¤¬¥¿¥¤¥à¥¢¥¦¥È¤·¤¿ºÝ¤Ë
+-   *      ¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£°ú¿ô¤Ë¥³¥Í¥¯¥¿ID¤¬Í¿¤¨¤é¤ì¤ë¡£
+-   *      InPort¤Î¥×¥í¥Ð¥¤¥À¤ª¤è¤Ó¥³¥ó¥·¥å¡¼¥Þ¤¬ÂÐ±þ¤·¤Æ¤¤¤ë¾ì¹ç¤Ë¸Â¤êÍ­¸ú¡£
++   *      $B%G!<%?$,(BInPort$B$KBP$7$FAw$i$l$?$,!"Aw?.$,%?%$%`%"%&%H$7$?:]$K(B
++   *      $B8F$S=P$5$l$k%3!<%k%P%C%/!#0z?t$K%3%M%/%?(BID$B$,M?$($i$l$k!#(B
++   *      InPort$B$N%W%m%P%$%@$*$h$S%3%s%7%e!<%^$,BP1~$7$F$$$k>l9g$K8B$jM-8z!#(B
+    *
+    * - void OnSenderError::operator(ConnectorId):
+-   *      ¥Ç¡¼¥¿¤¬InPort¤ËÂÐ¤·¤ÆÁ÷¤é¤ì¤¿¤¬¡¢²¿¤é¤«¤Î¥¨¥é¡¼¤òInPortÂ¦¤¬
+-   *      ÊÖ¤·¤¿¾ì¹ç¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£
+-   *      °ú¿ô¤Ë¤Ï¡¢¥³¥Í¥¯¥¿ID¤¬Í¿¤¨¤é¤ì¤ë¡£
++   *      $B%G!<%?$,(BInPort$B$KBP$7$FAw$i$l$?$,!"2?$i$+$N%(%i!<$r(BInPort$BB&$,(B
++   *      $BJV$7$?>l9g$K8F$S=P$5$l$k%3!<%k%P%C%/!#(B
++   *      $B0z?t$K$O!"%3%M%/%?(BID$B$,M?$($i$l$k!#(B
+    *
+    *
+-   * OnReceive·Ï¥³¡¼¥ë¥Ð¥Ã¥¯ (¼õ¿®Â¦¤Ëµ¯°ø¤¹¤ë¥¤¥Ù¥ó¥È¤Ë¤è¤ê¥³¡¼¥ë¤µ¤ì¤ë)
++   * OnReceive$B7O%3!<%k%P%C%/(B ($B<u?.B&$K5/0x$9$k%$%Y%s%H$K$h$j%3!<%k$5$l$k(B)
+    * 
+    * - void OnReceiverFull::operator(ConnectorId):
+-   *      ¥Ç¡¼¥¿¤¬InPort¤ËÁ÷¤é¤ì¤ë¤â¤Î¤Î¡¢InPortÂ¦¤Î¥Ð¥Ã¥Õ¥¡¤¬¤¤¤Ã¤Ñ¤¤¤Î¾ì¹ç¤Ë
+-   *      ¤³¤ì¤òÄÌÃÎ¤¹¤ë¤¿¤á¤Ë¸Æ¤Ð¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£
+-   *       °ú¿ô¤Ë¤Ï¡¢¥³¥Í¥¯¥¿ID¤¬Í¿¤¨¤é¤ì¤ë¡£
++   *      $B%G!<%?$,(BInPort$B$KAw$i$l$k$b$N$N!"(BInPort$BB&$N%P%C%U%!$,$$$C$Q$$$N>l9g$K(B
++   *      $B$3$l$rDLCN$9$k$?$a$K8F$P$l$k%3!<%k%P%C%/!#(B
++   *       $B0z?t$K$O!"%3%M%/%?(BID$B$,M?$($i$l$k!#(B
+    *
+    * - void OnReceiverTimeout::operator(ConnectorId):
+-   *      ¥Ç¡¼¥¿¤¬InPort¤ËÁ÷¤é¤ì¤ë¤â¤Î¤Î¡¢InPortÂ¦¤Î¥Ð¥Ã¥Õ¥¡¤¬¤¤¤Ã¤Ñ¤¤¤Ç
+-   *      ¥¿¥¤¥à¥¢¥¦¥È¤·¤¿¾ì¹ç¤Ë¤³¤ì¤òÄÌÃÎ¤¹¤ë¤¿¤á¤Ë¸Æ¤Ð¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£
+-   *       °ú¿ô¤Ë¤Ï¡¢¥³¥Í¥¯¥¿ID¤¬Í¿¤¨¤é¤ì¤ë¡£
++   *      $B%G!<%?$,(BInPort$B$KAw$i$l$k$b$N$N!"(BInPort$BB&$N%P%C%U%!$,$$$C$Q$$$G(B
++   *      $B%?%$%`%"%&%H$7$?>l9g$K$3$l$rDLCN$9$k$?$a$K8F$P$l$k%3!<%k%P%C%/!#(B
++   *       $B0z?t$K$O!"%3%M%/%?(BID$B$,M?$($i$l$k!#(B
+    *
+    * - void OnReceiverError::operator(ConnectorId):
+-   *       ¥Ç¡¼¥¿¤¬InPort¤ËÁ÷¤é¤ì¤ë¤â¤Î¤Î¡¢InPortÂ¦¤Ç²¿¤é¤«¤Î¥¨¥é¡¼¤òÊÖ¤·¤¿
+-   *       ¾ì¹ç¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£
+-   *       °ú¿ô¤Ë¤Ï¡¢¥³¥Í¥¯¥¿ID¤¬Í¿¤¨¤é¤ì¤ë¡£
++   *       $B%G!<%?$,(BInPort$B$KAw$i$l$k$b$N$N!"(BInPort$BB&$G2?$i$+$N%(%i!<$rJV$7$?(B
++   *       $B>l9g$K8F$S=P$5$l$k%3!<%k%P%C%/!#(B
++   *       $B0z?t$K$O!"%3%M%/%?(BID$B$,M?$($i$l$k!#(B
+    *
+    * - void OnReceived::operator(ConnectorId):
+-   *       ¥Ç¡¼¥¿¤ÎÁ÷¿®¤ª¤è¤Ó¼õ¿®¤¬´°Î»¤·¤¿ºÝ¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯¡£
+-   *       °ú¿ô¤Ë¤Ï¡¢¥³¥Í¥¯¥¿ID¤¬Í¿¤¨¤é¤ì¤ë¡£
++   *       $B%G!<%?$NAw?.$*$h$S<u?.$,40N;$7$?:]$K8F$S=P$5$l$k%3!<%k%P%C%/!#(B
++   *       $B0z?t$K$O!"%3%M%/%?(BID$B$,M?$($i$l$k!#(B
+    *
+    *
+    * @since 0.2.0
+@@ -180,24 +180,24 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥³¥ó¥¹¥È¥é¥¯¥¿
++     * @brief $B%3%s%9%H%i%/%?(B
+      *
+-     * ¥³¥ó¥¹¥È¥é¥¯¥¿¡£
+-     * ¥Ñ¥é¥á¡¼¥¿¤È¤·¤ÆÍ¿¤¨¤é¤ì¤ë T ·¿¤ÎÊÑ¿ô¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤ë¡£
++     * $B%3%s%9%H%i%/%?!#(B
++     * $B%Q%i%a!<%?$H$7$FM?$($i$l$k(B T $B7?$NJQ?t$K%P%$%s%I$5$l$k!#(B
+      *
+-     * @param name InPort Ì¾¡£InPortBase:name() ¤Ë¤è¤ê»²¾È¤µ¤ì¤ë¡£
+-     * @param value ¤³¤Î InPort ¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤ë T ·¿¤ÎÊÑ¿ô
+-     * @param bufsize InPort ÆâÉô¤Î¥ê¥ó¥°¥Ð¥Ã¥Õ¥¡¤Î¥Ð¥Ã¥Õ¥¡Ä¹(¥Ç¥Õ¥©¥ë¥ÈÃÍ:64)
+-     * @param read_block ÆÉ¹þ¥Ö¥í¥Ã¥¯¥Õ¥é¥°¡£
+-     *        ¥Ç¡¼¥¿ÆÉ¹þ»þ¤ËÌ¤ÆÉ¥Ç¡¼¥¿¤¬¤Ê¤¤¾ì¹ç¡¢¼¡¤Î¥Ç¡¼¥¿¼õ¿®¤Þ¤Ç¥Ö¥í¥Ã¥¯¤¹¤ë
+-     *        ¤«¤É¤¦¤«¤òÀßÄê(¥Ç¥Õ¥©¥ë¥ÈÃÍ:false)
+-     * @param write_block ½ñ¹þ¥Ö¥í¥Ã¥¯¥Õ¥é¥°¡£
+-     *        ¥Ç¡¼¥¿½ñ¹þ»þ¤Ë¥Ð¥Ã¥Õ¥¡¤¬¥Õ¥ë¤Ç¤¢¤Ã¤¿¾ì¹ç¡¢¥Ð¥Ã¥Õ¥¡¤Ë¶õ¤­¤¬¤Ç¤­¤ë
+-     *        ¤Þ¤Ç¥Ö¥í¥Ã¥¯¤¹¤ë¤«¤É¤¦¤«¤òÀßÄê(¥Ç¥Õ¥©¥ë¥ÈÃÍ:false)
+-     * @param read_timeout ÆÉ¹þ¥Ö¥í¥Ã¥¯¤ò»ØÄê¤·¤Æ¤¤¤Ê¤¤¾ì¹ç¤Î¡¢¥Ç¡¼¥¿ÆÉ¼è¥¿¥¤¥à
+-     *        ¥¢¥¦¥È»þ´Ö(¥ß¥êÉÃ)(¥Ç¥Õ¥©¥ë¥ÈÃÍ:0)
+-     * @param write_timeout ½ñ¹þ¥Ö¥í¥Ã¥¯¤ò»ØÄê¤·¤Æ¤¤¤Ê¤¤¾ì¹ç¤Î¡¢¥Ç¡¼¥¿½ñ¹þ¥¿¥¤¥à
+-     *        ¥¢¥¦¥È»þ´Ö(¥ß¥êÉÃ)(¥Ç¥Õ¥©¥ë¥ÈÃÍ:0)
++     * @param name InPort $BL>!#(BInPortBase:name() $B$K$h$j;2>H$5$l$k!#(B
++     * @param value $B$3$N(B InPort $B$K%P%$%s%I$5$l$k(B T $B7?$NJQ?t(B
++     * @param bufsize InPort $BFbIt$N%j%s%0%P%C%U%!$N%P%C%U%!D9(B($B%G%U%)%k%HCM(B:64)
++     * @param read_block $BFI9~%V%m%C%/%U%i%0!#(B
++     *        $B%G!<%?FI9~;~$KL$FI%G!<%?$,$J$$>l9g!"<!$N%G!<%?<u?.$^$G%V%m%C%/$9$k(B
++     *        $B$+$I$&$+$r@_Dj(B($B%G%U%)%k%HCM(B:false)
++     * @param write_block $B=q9~%V%m%C%/%U%i%0!#(B
++     *        $B%G!<%?=q9~;~$K%P%C%U%!$,%U%k$G$"$C$?>l9g!"%P%C%U%!$K6u$-$,$G$-$k(B
++     *        $B$^$G%V%m%C%/$9$k$+$I$&$+$r@_Dj(B($B%G%U%)%k%HCM(B:false)
++     * @param read_timeout $BFI9~%V%m%C%/$r;XDj$7$F$$$J$$>l9g$N!"%G!<%?FI<h%?%$%`(B
++     *        $B%"%&%H;~4V(B($B%_%jIC(B)($B%G%U%)%k%HCM(B:0)
++     * @param write_timeout $B=q9~%V%m%C%/$r;XDj$7$F$$$J$$>l9g$N!"%G!<%?=q9~%?%$%`(B
++     *        $B%"%&%H;~4V(B($B%_%jIC(B)($B%G%U%)%k%HCM(B:0)
+      *
+      * @else
+      *
+@@ -234,16 +234,17 @@
+ 	   int read_timeout = 0, int write_timeout = 0)
+       :	InPortBase(name, toTypename<DataType>()),
+         m_name(name), m_value(value),
+-	m_OnRead(NULL),  m_OnReadConvert(NULL)
++	m_OnRead(NULL),  m_OnReadConvert(NULL),
++        m_status(1) // InPort has only one status
+     {
+     }
+     
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ç¥¹¥È¥é¥¯¥¿
++     * @brief $B%G%9%H%i%/%?(B
+      *
+-     * ¥Ç¥¹¥È¥é¥¯¥¿¡£
++     * $B%G%9%H%i%/%?!#(B
+      *
+      * @else
+      *
+@@ -258,11 +259,11 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ý¡¼¥ÈÌ¾¾Î¤ò¼èÆÀ¤¹¤ë¡£
++     * @brief $B%]!<%HL>>N$r<hF@$9$k!#(B
+      *
+-     * ¥Ý¡¼¥ÈÌ¾¾Î¤ò¼èÆÀ¤¹¤ë¡£
++     * $B%]!<%HL>>N$r<hF@$9$k!#(B
+      *
+-     * @return ¥Ý¡¼¥ÈÌ¾¾Î
++     * @return $B%]!<%HL>>N(B
+      *
+      * @else
+      *
+@@ -283,14 +284,14 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ºÇ¿·¥Ç¡¼¥¿¤¬Â¸ºß¤¹¤ë¤«³ÎÇ§¤¹¤ë
++     * @brief $B:G?7%G!<%?$,B8:_$9$k$+3NG'$9$k(B
+      * 
+-     * InPort¤ËÌ¤ÆÉ¤ÎºÇ¿·¥Ç¡¼¥¿¤¬ÅþÃå¤·¤Æ¤¤¤ë¤«¤òboolÃÍ¤ÇÊÖ¤¹¡£
+-     * InPort¤¬Ì¤ÀÜÂ³¤Î¾ì¹ç¡¢¤ª¤è¤ÓÀÜÂ³¥³¥Í¥¯¥¿¤Î¥Ð¥Ã¥Õ¥¡¤¬Empty
+-     * ¤Î¾ì¹ç¤Ë¤Ïfalse¤òÊÖ¤¹¡£
++     * InPort$B$KL$FI$N:G?7%G!<%?$,E~Ce$7$F$$$k$+$r(Bbool$BCM$GJV$9!#(B
++     * InPort$B$,L$@\B3$N>l9g!"$*$h$S@\B3%3%M%/%?$N%P%C%U%!$,(BEmpty
++     * $B$N>l9g$K$O(Bfalse$B$rJV$9!#(B
+      *
+-     * @return true Ì¤ÆÉ¤ÎºÇ¿·¥Ç¡¼¥¿¤¬Â¸ºß¤¹¤ë
+-     *         false Ì¤ÀÜÂ³¤Þ¤¿¤Ï¥Ð¥Ã¥Õ¥¡¤Ë¥Ç¡¼¥¿¤¬Â¸ºß¤·¤Ê¤¤¡£
++     * @return true $BL$FI$N:G?7%G!<%?$,B8:_$9$k(B
++     *         false $BL$@\B3$^$?$O%P%C%U%!$K%G!<%?$,B8:_$7$J$$!#(B
+      * 
+      * @else
+      *
+@@ -300,28 +301,25 @@
+      *
+      * @return Newest data check result
+      *         ( true:Newest data. Data has not been readout yet.
+-     *          false:Past data¡¥Data has already been readout.)
++     *          false:Past data$B!%(BData has already been readout.)
+      * 
+      * @endif
+      */
+     virtual bool isNew()
+     {
+       RTC_TRACE(("isNew()"));
+-
+-      // In single-buffer mode, all connectors share the same buffer. This
+-      // means that we only need to read from the first connector to get data
+-      // received by any connector.
+       int r(0);
++
+       {
+         Guard guard(m_connectorsMutex);
+         if (m_connectors.size() == 0)
+-          {
++         {
+             RTC_DEBUG(("no connectors"));
+             return false;
+-          }
++         }
+         r = m_connectors[0]->getBuffer()->readable();
+       }
+-      
++
+       if (r > 0)
+         {
+           RTC_DEBUG(("isNew() = true, readable data: %d", r));
+@@ -335,13 +333,13 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥Ã¥Õ¥¡¤¬¶õ¤«¤É¤¦¤«³ÎÇ§¤¹¤ë
++     * @brief $B%P%C%U%!$,6u$+$I$&$+3NG'$9$k(B
+      * 
+-     * InPort¤Î¥Ð¥Ã¥Õ¥¡¤¬¶õ¤«¤É¤¦¤«¤ò bool ÃÍ¤ÇÊÖ¤¹¡£
+-     * ¶õ¤Î¾ì¹ç¤Ï true, Ì¤ÆÉ¥Ç¡¼¥¿¤¬¤¢¤ë¾ì¹ç¤Ï false ¤òÊÖ¤¹¡£
++     * InPort$B$N%P%C%U%!$,6u$+$I$&$+$r(B bool $BCM$GJV$9!#(B
++     * $B6u$N>l9g$O(B true, $BL$FI%G!<%?$,$"$k>l9g$O(B false $B$rJV$9!#(B
+      *
+-     * @return true  ¥Ð¥Ã¥Õ¥¡¤Ï¶õ
+-     *         false ¥Ð¥Ã¥Õ¥¡¤ËÌ¤ÆÉ¥Ç¡¼¥¿¤¬¤¢¤ë
++     * @return true  $B%P%C%U%!$O6u(B
++     *         false $B%P%C%U%!$KL$FI%G!<%?$,$"$k(B
+      * 
+      * @else
+      *
+@@ -351,7 +349,7 @@
+      *
+      * @return Newest data check result
+      *         ( true:Newest data. Data has not been readout yet.
+-     *          false:Past data¡¥Data has already been readout.)
++     *          false:Past data$B!%(BData has already been readout.)
+      * 
+      * @endif
+      */
+@@ -367,9 +365,6 @@
+             RTC_DEBUG(("no connectors"));
+             return true;
+           }
+-        // In single-buffer mode, all connectors share the same buffer. This
+-        // means that we only need to read from the first connector to get data
+-        // received by any connector.
+         r = m_connectors[0]->getBuffer()->readable();
+       }
+ 
+@@ -386,54 +381,54 @@
+     /*!
+      * @if jp
+      *
+-     * @brief DataPort ¤«¤éÃÍ¤òÆÉ¤ß½Ð¤¹
++     * @brief DataPort $B$+$iCM$rFI$_=P$9(B
+      *
+-     * InPort¤Ë½ñ¤­¹þ¤Þ¤ì¤¿¥Ç¡¼¥¿¤òÆÉ¤ß¤À¤¹¡£ÀÜÂ³¿ô¤¬0¡¢¤Þ¤¿¤Ï¥Ð¥Ã¥Õ¥¡¤Ë
+-     * ¥Ç¡¼¥¿¤¬½ñ¤­¹þ¤Þ¤ì¤Æ¤¤¤Ê¤¤¾õÂÖ¤ÇÆÉ¤ß¤À¤·¤¿¾ì¹ç¤ÎÌá¤êÃÍ¤ÏÉÔÄê¤Ç¤¢¤ë¡£
+-     * ¥Ð¥Ã¥Õ¥¡¤¬¶õ¤Î¾õÂÖ¤Î¤È¤­¡¢
+-     * »öÁ°¤ËÀßÄê¤µ¤ì¤¿¥â¡¼¥É (readback, do_nothing, block) ¤Ë±þ¤¸¤Æ¡¢
+-     * °Ê²¼¤Î¤è¤¦¤ÊÆ°ºî¤ò¤¹¤ë¡£
++     * InPort$B$K=q$-9~$^$l$?%G!<%?$rFI$_$@$9!#@\B3?t$,(B0$B!"$^$?$O%P%C%U%!$K(B
++     * $B%G!<%?$,=q$-9~$^$l$F$$$J$$>uBV$GFI$_$@$7$?>l9g$NLa$jCM$OITDj$G$"$k!#(B
++     * $B%P%C%U%!$,6u$N>uBV$N$H$-!"(B
++     * $B;vA0$K@_Dj$5$l$?%b!<%I(B (readback, do_nothing, block) $B$K1~$8$F!"(B
++     * $B0J2<$N$h$&$JF0:n$r$9$k!#(B
+      *
+-     * - readback: ºÇ¸å¤ÎÃÍ¤òÆÉ¤ß¤Ê¤ª¤¹¡£
++     * - readback: $B:G8e$NCM$rFI$_$J$*$9!#(B
+      *
+-     * - do_nothing: ²¿¤â¤·¤Ê¤¤
++     * - do_nothing: $B2?$b$7$J$$(B
+      *
+-     * - block: ¥Ö¥í¥Ã¥¯¤¹¤ë¡£¥¿¥¤¥à¥¢¥¦¥È¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¡¢
+-     *       ¥¿¥¤¥à¥¢¥¦¥È¤¹¤ë¤Þ¤ÇÂÔ¤Ä¡£
++     * - block: $B%V%m%C%/$9$k!#%?%$%`%"%&%H$,@_Dj$5$l$F$$$k>l9g$O!"(B
++     *       $B%?%$%`%"%&%H$9$k$^$GBT$D!#(B
+      *
+-     * ¥Ð¥Ã¥Õ¥¡¤¬¶õ¤Î¾õÂÖ¤Ç¤Ï¡¢InPort¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤¿ÊÑ¿ô¤ÎÃÍ¤¬ÊÖ¤µ¤ì¤ë¡£
+-     * ¤·¤¿¤¬¤Ã¤Æ¡¢½é²óÆÉ¤ß½Ð¤·»þ¤Ë¤ÏÉÔÄêÃÍ¤òÊÖ¤¹²ÄÇ½À­¤¬¤¢¤ë¡£
+-     * ¤³¤Î´Ø¿ô¤òÍøÍÑ¤¹¤ëºÝ¤Ë¤Ï¡¢
++     * $B%P%C%U%!$,6u$N>uBV$G$O!"(BInPort$B$K%P%$%s%I$5$l$?JQ?t$NCM$,JV$5$l$k!#(B
++     * $B$7$?$,$C$F!"=i2sFI$_=P$7;~$K$OITDjCM$rJV$92DG=@-$,$"$k!#(B
++     * $B$3$N4X?t$rMxMQ$9$k:]$K$O!"(B
+      *
+-     * - isNew(), isEmpty() ¤ÈÊ»ÍÑ¤·¡¢»öÁ°¤Ë¥Ð¥Ã¥Õ¥¡¾õÂÖ¤ò¥Á¥§¥Ã¥¯¤¹¤ë¡£
++     * - isNew(), isEmpty() $B$HJ;MQ$7!";vA0$K%P%C%U%!>uBV$r%A%'%C%/$9$k!#(B
+      * 
+-     * - ½é²óÆÉ¤ß½Ð¤·»þ¤ËÉÔÄêÃÍ¤òÊÖ¤µ¤Ê¤¤¤è¤¦¤Ë¥Ð¥¤¥ó¥ÉÊÑ¿ô¤ò»öÁ°¤Ë½é´ü²½¤¹¤ë
++     * - $B=i2sFI$_=P$7;~$KITDjCM$rJV$5$J$$$h$&$K%P%$%s%IJQ?t$r;vA0$K=i4|2=$9$k(B
+      * 
+-     * - ReturnCode read(DataType& data) ´Ø¿ô¤ÎÍøÍÑ¤ò¸¡Æ¤¤¹¤ë¡£
++     * - ReturnCode read(DataType& data) $B4X?t$NMxMQ$r8!F$$9$k!#(B
+      *
+-     * ¤³¤È¤¬Ë¾¤Þ¤·¤¤¡£
++     * $B$3$H$,K>$^$7$$!#(B
+      *
+-     * ³Æ¥³¡¼¥ë¥Ð¥Ã¥¯´Ø¿ô¤Ï°Ê²¼¤Î¤è¤¦¤Ë¸Æ¤Ó½Ð¤µ¤ì¤ë¡£
+-     * - OnRead: read() ´Ø¿ô¤¬¸Æ¤Ð¤ì¤ëºÝ¤ËÉ¬¤º¸Æ¤Ð¤ì¤ë¡£
++     * $B3F%3!<%k%P%C%/4X?t$O0J2<$N$h$&$K8F$S=P$5$l$k!#(B
++     * - OnRead: read() $B4X?t$,8F$P$l$k:]$KI,$:8F$P$l$k!#(B
+      * 
+-     * - OnReadConvert: ¥Ç¡¼¥¿¤ÎÆÉ¤ß½Ð¤·¤¬À®¸ù¤·¤¿¾ì¹ç¡¢ÆÉ¤ß¤À¤·¤¿¥Ç¡¼¥¿¤ò
+-     *       °ú¿ô¤È¤·¤ÆOnReadConvert¤¬¸Æ¤Ó½Ð¤µ¤ì¡¢Ìá¤êÃÍ¤òread()¤¬Ìá¤êÃÍ
+-     *       ¤È¤·¤ÆÊÖ¤¹¡£
++     * - OnReadConvert: $B%G!<%?$NFI$_=P$7$,@.8y$7$?>l9g!"FI$_$@$7$?%G!<%?$r(B
++     *       $B0z?t$H$7$F(BOnReadConvert$B$,8F$S=P$5$l!"La$jCM$r(Bread()$B$,La$jCM(B
++     *       $B$H$7$FJV$9!#(B
+      *
+-     * - OnEmpty: ¥Ð¥Ã¥Õ¥¡¤¬¶õ¤Î¤¿¤á¥Ç¡¼¥¿¤ÎÆÉ¤ß½Ð¤·¤Ë¼ºÇÔ¤·¤¿¾ì¹ç¸Æ¤Ó½Ð¤µ¤ì¤ë¡£
+-     *        OnEmpty ¤ÎÌá¤êÃÍ¤ò read() ¤ÎÌá¤êÃÍ¤È¤·¤ÆÊÖ¤¹¡£
++     * - OnEmpty: $B%P%C%U%!$,6u$N$?$a%G!<%?$NFI$_=P$7$K<:GT$7$?>l9g8F$S=P$5$l$k!#(B
++     *        OnEmpty $B$NLa$jCM$r(B read() $B$NLa$jCM$H$7$FJV$9!#(B
+      *
+-     * - OnBufferTimeout: ¥Ç¡¼¥¿¥Õ¥í¡¼·¿¤¬Push·¿¤Î¾ì¹ç¤Ë¡¢ÆÉ¤ß½Ð¤·
+-     *        ¥¿¥¤¥à¥¢¥¦¥È¤Î¤¿¤á¤Ë¥Ç¡¼¥¿¤ÎÆÉ¤ß½Ð¤·¤Ë¼ºÇÔ¤·¤¿¾ì¹ç¤Ë¸Æ¤Ð¤ì¤ë¡£
++     * - OnBufferTimeout: $B%G!<%?%U%m!<7?$,(BPush$B7?$N>l9g$K!"FI$_=P$7(B
++     *        $B%?%$%`%"%&%H$N$?$a$K%G!<%?$NFI$_=P$7$K<:GT$7$?>l9g$K8F$P$l$k!#(B
+      *
+-     * - OnRecvTimeout: ¥Ç¡¼¥¿¥Õ¥í¡¼·¿¤¬Pull·¿¤Î¾ì¹ç¤Ë¡¢ÆÉ¤ß½Ð¤·¥¿¥¤¥à¥¢¥¦¥È
+-     *        ¤Î¤¿¤á¤Ë¥Ç¡¼¥¿ÆÉ¤ß½Ð¤·¤Ë¼ºÇÔ¤·¤¿¾ì¹ç¤Ë¸Æ¤Ð¤ì¤ë¡£
++     * - OnRecvTimeout: $B%G!<%?%U%m!<7?$,(BPull$B7?$N>l9g$K!"FI$_=P$7%?%$%`%"%&%H(B
++     *        $B$N$?$a$K%G!<%?FI$_=P$7$K<:GT$7$?>l9g$K8F$P$l$k!#(B
+      *
+-     * - OnReadError: ¾åµ­°Ê³°¤ÎÍýÍ³¤ÇÆÉ¤ß¤À¤·¤Ë¼ºÇÔ¤·¤¿¾ì¹ç¤Ë¸Æ¤Ð¤ì¤ë¡£
+-     *        ÍýÍ³¤È¤·¤Æ¤Ï¡¢¥Ð¥Ã¥Õ¥¡ÀßÄê¤ÎÉÔÀ°¹ç¡¢Îã³°¤ÎÈ¯À¸¤Ê¤É¤¬¹Í¤¨¤é¤ì¤ë
+-     *        ¤¬ÄÌ¾ï¤Ïµ¯¤³¤ê¤¨¤Ê¤¤¤¿¤á¥Ð¥°¤Î²ÄÇ½À­¤¬¤¢¤ë¡£
++     * - OnReadError: $B>e5-0J30$NM}M3$GFI$_$@$7$K<:GT$7$?>l9g$K8F$P$l$k!#(B
++     *        $BM}M3$H$7$F$O!"%P%C%U%!@_Dj$NIT@09g!"Nc30$NH/@8$J$I$,9M$($i$l$k(B
++     *        $B$,DL>o$O5/$3$j$($J$$$?$a%P%0$N2DG=@-$,$"$k!#(B
+      *
+-     * @return ÆÉ¤ß½Ð¤··ë²Ì(ÆÉ¤ß½Ð¤·À®¸ù:true, ÆÉ¤ß½Ð¤·¼ºÇÔ:false)
++     * @return $BFI$_=P$77k2L(B($BFI$_=P$7@.8y(B:true, $BFI$_=P$7<:GT(B:false)
+      *
+      * @else
+      *
+@@ -476,11 +471,9 @@
+             RTC_DEBUG(("no connectors"));
+             return false;
+           }
+-        
+-        // In single-buffer mode, all connectors share the same buffer. This
+-        // means that we only need to read from the first connector to get data
+-        // received by any connector.
++
+         ret = m_connectors[0]->read(cdr);
++        m_status[0] = ret;
+       }
+       if (ret == PORT_OK)
+         {
+@@ -512,12 +505,12 @@
+     /*!
+      * @if jp
+      *
+-     * @brief ¥Ð¥¤¥ó¥É¤µ¤ì¤¿ T ·¿¤ÎÊÑ¿ô¤Ë InPort ¥Ð¥Ã¥Õ¥¡¤ÎºÇ¿·ÃÍ¤òÆÉ¤ß¹þ¤à
++     * @brief $B%P%$%s%I$5$l$?(B T $B7?$NJQ?t$K(B InPort $B%P%C%U%!$N:G?7CM$rFI$_9~$`(B
+      *
+-     * ¥Ð¥¤¥ó¥É¤µ¤ì¤¿ T ·¿¤Î¥Ç¡¼¥¿¤Ë InPort ¤ÎºÇ¿·ÃÍ¤òÆÉ¤ß¹þ¤à¡£
+-     * ¥³¥ó¥¹¥È¥é¥¯¥¿¤Ç T ·¿¤ÎÊÑ¿ô¤È InPort ¤¬¥Ð¥¤¥ó¥É¤µ¤ì¤Æ¤¤¤Ê¤±¤ì¤Ð¤Ê¤é¤Ê¤¤¡£
+-     * ¤³¤Î¥á¥½¥Ã¥É¤Ï¥Ý¥ê¥â¡¼¥Õ¥£¥Ã¥¯¤Ë»ÈÍÑ¤µ¤ì¤ë»ö¤òÁ°Äó¤È¤·¤Æ¤¤¤ë¤¿¤á¡¢
+-     * ·¿¤Ë°ÍÂ¸¤·¤Ê¤¤°ú¿ô¡¢Ìá¤êÃÍ¤È¤Ê¤Ã¤Æ¤¤¤ë¡£
++     * $B%P%$%s%I$5$l$?(B T $B7?$N%G!<%?$K(B InPort $B$N:G?7CM$rFI$_9~$`!#(B
++     * $B%3%s%9%H%i%/%?$G(B T $B7?$NJQ?t$H(B InPort $B$,%P%$%s%I$5$l$F$$$J$1$l$P$J$i$J$$!#(B
++     * $B$3$N%a%=%C%I$O%]%j%b!<%U%#%C%/$K;HMQ$5$l$k;v$rA0Ds$H$7$F$$$k$?$a!"(B
++     * $B7?$K0MB8$7$J$$0z?t!"La$jCM$H$J$C$F$$$k!#(B
+      *
+      * @else
+      *
+@@ -539,12 +532,12 @@
+     /*!
+      * @if jp
+      *
+-     * @brief T ·¿¤Î¥Ç¡¼¥¿¤Ø InPort ¤ÎºÇ¿·ÃÍ¥Ç¡¼¥¿¤òÆÉ¤ß¹þ¤à
++     * @brief T $B7?$N%G!<%?$X(B InPort $B$N:G?7CM%G!<%?$rFI$_9~$`(B
+      *
+-     * InPort ¤ËÀßÄê¤µ¤ì¤Æ¤¤¤ëºÇ¿·¥Ç¡¼¥¿¤òÆÉ¤ß¹þ¤ß¡¢
+-     * »ØÄê¤µ¤ì¤¿¥Ç¡¼¥¿ÊÑ¿ô¤ËÀßÄê¤¹¤ë¡£
++     * InPort $B$K@_Dj$5$l$F$$$k:G?7%G!<%?$rFI$_9~$_!"(B
++     * $B;XDj$5$l$?%G!<%?JQ?t$K@_Dj$9$k!#(B
+      *
+-     * @param rhs InPort ¥Ð¥Ã¥Õ¥¡¤«¤éÃÍ¤òÆÉ¤ß¹þ¤à T ·¿ÊÑ¿ô
++     * @param rhs InPort $B%P%C%U%!$+$iCM$rFI$_9~$`(B T $B7?JQ?t(B
+      *
+      * @else
+      *
+@@ -566,12 +559,106 @@
+     /*!
+      * @if jp
+      *
+-     * @brief InPort ¥Ð¥Ã¥Õ¥¡¤Ø¥Ç¡¼¥¿ÆÉ¤ß¹þ¤ß»þ¤Î¥³¡¼¥ë¥Ð¥Ã¥¯¤ÎÀßÄê
++     * @brief $B%3%M%/%?$+$i$NFI$_=P$7%9%F!<%?%9$rF@$k(B
++     *
++     * $B$3$N4X?t$O!"(BDataPortStatus $B$N(B vector $B7?$N(B 0 $BHVL\$NMWAG$K!"FI$_=P(B
++     * $B$7$N:]$N%9%F!<%?%9$rJV$9!#0z?t(B index $B$O8_49@-$N$?$a$@$1$KMQ0U$5(B
++     * $B$l$F$*$jFbItE*$K$O;HMQ$5$l$J$$!#(B
++     * 
++     * InPort $B$OM#0l$N%P%C%U%!$r;}$A!"@\B3$4$H$K@8@.$5$l$k2>A[%G!<%?%A%c(B
++     * $B%M%k(B Connector $B$O!"$3$NM#0l$N%P%C%U%!$r6&M-$9$k!#$7$?$,$C$F!"(B
++     * read() $B4X?t$O(B 0 $BHVL\$N(B Connector $B$+$i$N$_%G!<%?$NFI$_=P$7$r9T$&!#(B
++     *
++     * InPort $B$N(B read() $B4X?t$G$O!"(BConnector $B$+$i$N%G!<%?FI$_=P$7$,@5>o(B
++     * $B=*N;$7$?$H$-$N$_(B true $B$rJV$7!"$=$l0J30$G$O(B false $B$rJV5Q$9$k!#$3(B
++     * $B$N4X?t$O(B read() $B$,(B false $B$N>l9g%9%F!<%?%9$rD4$Y$k$N$K;HMQ$9$k$3(B
++     * $B$H$,$G$-$k!#(B
++     * 
++     * @param index Connector $B$N(B index
++     * @return $B%9%F!<%?%9(B
++     *
++     * @else
++     *
++     * @brief Getting specified connector's reading status
++     *
++     * This function returns read status as a 0th element of the
++     * vector of the DataPortStatus. Argument "index" is provided for
++     * only compatibility, and it is not used internally.
++     *
++     * InPort has only one buffer, and connectors, which are created
++     * for each connection as virtual data stream channel, share the
++     * buffer. Therefore read() function always read data from the
++     * first Connector.
++     *
++     * InPort returns true-value when read() function normally
++     * finishes, and in other cases it returns false-value. This
++     * function is used to check return status when read() returns
++     * false-value.
++     *
++     * @param index Connector index (no effect)
++     * @return Reading status
++     *
++     * @endif
++     */
++    DataPortStatus::Enum getStatus(int index)
++    {
++      return m_status[0];
++    }
++
++    /*!
++     * @if jp
++     *
++     * @brief $B%3%M%/%?$+$i$NFI$_=P$7%9%F!<%?%9$rF@$k(B
++     *
++     * $B$3$N4X?t$O!">o$KD9$5(B1$B$N(BDataPortStatusList$B7?$NFI$_=P$7$N:]$N%9%F!<(B
++     * $B%?%9$rJV$9!#(B
++     * 
++     * InPort $B$OM#0l$N%P%C%U%!$r;}$A!"@\B3$4$H$K@8@.$5$l$k2>A[%G!<%?%A%c(B
++     * $B%M%k(B Connector $B$O!"$3$NM#0l$N%P%C%U%!$r6&M-$9$k!#$7$?$,$C$F!"(B
++     * read() $B4X?t$O(B 0 $BHVL\$N(B Connector $B$+$i$N$_%G!<%?$NFI$_=P$7$r9T$&!#(B
++     *
++     * InPort $B$N(B read() $B4X?t$G$O!"(BConnector $B$+$i$N%G!<%?FI$_=P$7$,@5>o(B
++     * $B=*N;$7$?$H$-$N$_(B true $B$rJV$7!"$=$l0J30$G$O(B false $B$rJV5Q$9$k!#$3(B
++     * $B$N4X?t$O(B read() $B$,(B false $B$N>l9g%9%F!<%?%9$rD4$Y$k$N$K;HMQ$9$k$3(B
++     * $B$H$,$G$-$k!#(B
++     * 
++     * @return $B%9%F!<%?%9(B
++     *
++     * @else
++     *
++     * @brief Getting specified connector's reading status
++     *
++     * This function always returns reading status by
++     * DataPortStatusList value with length 1.
++     *
++     * InPort has only one buffer, and connectors, which are created
++     * for each connection as virtual data stream channel, share the
++     * buffer. Therefore read() function always read data from the
++     * first Connector.
++     *
++     * InPort returns true-value when read() function normally
++     * finishes, and in other cases it returns false-value. This
++     * function is used to check return status when read() returns
++     * false-value.
++     *
++     * @return Writing status
++     *
++     * @endif
++     */
++    DataPortStatusList getStatusList()
++    {
++      return m_status;
++    }
++
++    /*!
++     * @if jp
++     *
++     * @brief InPort $B%P%C%U%!$X%G!<%?FI$_9~$_;~$N%3!<%k%P%C%/$N@_Dj(B
+      *
+-     * InPort ¤¬»ý¤Ä¥Ð¥Ã¥Õ¥¡¤«¤é¥Ç¡¼¥¿¤¬ÆÉ¤ß¹þ¤Þ¤ì¤ëÄ¾Á°¤Ë¸Æ¤Ð¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯
+-     * ¥ª¥Ö¥¸¥§¥¯¥È¤òÀßÄê¤¹¤ë¡£
++     * InPort $B$,;}$D%P%C%U%!$+$i%G!<%?$,FI$_9~$^$l$kD>A0$K8F$P$l$k%3!<%k%P%C%/(B
++     * $B%*%V%8%'%/%H$r@_Dj$9$k!#(B
+      * 
+-     * @param on_read OnRead&lt;DataType&gt;·¿¤Î¥ª¥Ö¥¸¥§¥¯¥È
++     * @param on_read OnRead&lt;DataType&gt;$B7?$N%*%V%8%'%/%H(B
+      *
+      * @else
+      *
+@@ -592,13 +679,13 @@
+     /*!
+      * @if jp
+      *
+-     * @brief InPort ¥Ð¥Ã¥Õ¥¡¤Ø¥Ç¡¼¥¿ÆÉ¤ß½Ð¤·»þ¤Î¥³¡¼¥ë¥Ð¥Ã¥¯¤ÎÀßÄê
++     * @brief InPort $B%P%C%U%!$X%G!<%?FI$_=P$7;~$N%3!<%k%P%C%/$N@_Dj(B
+      *
+-     * InPort ¤¬»ý¤Ä¥Ð¥Ã¥Õ¥¡¤«¤é¥Ç¡¼¥¿¤¬ÆÉ¤ß½Ð¤µ¤ì¤ëºÝ¤Ë¸Æ¤Ð¤ì¤ë¥³¡¼¥ë¥Ð¥Ã¥¯
+-     * ¥ª¥Ö¥¸¥§¥¯¥È¤òÀßÄê¤¹¤ë¡£¥³¡¼¥ë¥Ð¥Ã¥¯¥ª¥Ö¥¸¥§¥¯¥È¤ÎÌá¤êÃÍ¤¬read()¥á¥½¥Ã¥É
+-     * ¤Î¸Æ½Ð·ë²Ì¤È¤Ê¤ë¡£
++     * InPort $B$,;}$D%P%C%U%!$+$i%G!<%?$,FI$_=P$5$l$k:]$K8F$P$l$k%3!<%k%P%C%/(B
++     * $B%*%V%8%'%/%H$r@_Dj$9$k!#%3!<%k%P%C%/%*%V%8%'%/%H$NLa$jCM$,(Bread()$B%a%=%C%I(B
++     * $B$N8F=P7k2L$H$J$k!#(B
+      * 
+-     * @param on_rconvert OnReadConvert&lt;DataType&gt;·¿¤Î¥ª¥Ö¥¸¥§¥¯¥È
++     * @param on_rconvert OnReadConvert&lt;DataType&gt;$B7?$N%*%V%8%'%/%H(B
+      *
+      * @else
+      *
+@@ -621,7 +708,7 @@
+     std::string m_typename;
+     /*!
+      * @if jp
+-     * @brief ¥Ý¡¼¥ÈÌ¾
++     * @brief $B%]!<%HL>(B
+      * @else
+      * @berif Port's name
+      * @endif
+@@ -630,7 +717,7 @@
+     
+     /*!
+      * @if jp
+-     * @brief ¥Ð¥¤¥ó¥É¤µ¤ì¤ë T ·¿¤ÎÊÑ¿ô¤Ø¤Î»²¾È
++     * @brief $B%P%$%s%I$5$l$k(B T $B7?$NJQ?t$X$N;2>H(B
+      * @else
+      * @brief The reference to type-T value bound this OutPort
+      * @endif
+@@ -639,7 +726,7 @@
+     
+     /*!
+      * @if jp
+-     * @brief OnRead ¥³¡¼¥ë¥Ð¥Ã¥¯¥Õ¥¡¥ó¥¯¥¿¤Ø¤Î¥Ý¥¤¥ó¥¿
++     * @brief OnRead $B%3!<%k%P%C%/%U%!%s%/%?$X$N%]%$%s%?(B
+      * @else
+      * @brief Pointer to OnRead callback functor
+      * @endif
+@@ -648,13 +735,14 @@
+     
+     /*!
+      * @if jp
+-     * @brief OnReadConvert ¥³¡¼¥ë¥Ð¥Ã¥¯¥Õ¥¡¥ó¥¯¥¿¤Ø¤Î¥Ý¥¤¥ó¥¿
++     * @brief OnReadConvert $B%3!<%k%P%C%/%U%!%s%/%?$X$N%]%$%s%?(B
+      * @else
+      * @brief Pointer to OnReadConvert callback functor
+      * @endif
+      */
+     OnReadConvert<DataType>* m_OnReadConvert;
+-   
++
++    DataPortStatusList m_status;
+   };
+ }; // End of namesepace RTM
+ 
