@@ -1,0 +1,12 @@
+--- OpenRTM-aist-r1971/src/lib/coil/configure.ac.orig	2010-06-24 09:22:51.000000000 +0900
++++ OpenRTM-aist-r1971/src/lib/coil/configure.ac	2021-05-06 09:42:07.196036774 +0900
+@@ -170,7 +170,8 @@
+ [CXXFLAGS=`echo $CXXFLAGS | sed 's/-g //g' | sed 's/-O[0-9]*//g'`]
+ if test "x$enable_debug" = "xyes" ; then
+ 	CXXFLAGS="$CXXFLAGS -g"
+-elif test "x$enable_optimize" != "xno" ; then
++fi
++if test "x$enable_optimize" != "xno" ; then
+ 	CXXFLAGS="$CXXFLAGS -O2"
+ fi
+ if test "x$CXXFLAGS" = "x" ; then

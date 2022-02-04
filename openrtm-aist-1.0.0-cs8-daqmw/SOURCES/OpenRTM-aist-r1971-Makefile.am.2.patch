@@ -1,0 +1,11 @@
+--- OpenRTM-aist-r1971/Makefile.am.orig	2010-06-24 09:22:55.000000000 +0900
++++ OpenRTM-aist-r1971/Makefile.am	2022-02-04 14:36:17.432138204 +0900
+@@ -7,7 +7,7 @@
+ 
+ AUTOMAKE_OPTIONS = 1.4
+ 
+-SUBDIRS = build src utils examples etc docs win32
++SUBDIRS = build src utils etc win32
+ 
+ EXTRA_DIST =        \
+ 	README      \

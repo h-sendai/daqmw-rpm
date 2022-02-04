@@ -1,0 +1,10 @@
+--- OpenRTM-aist-r1971/src/lib/coil/common/Timer.cpp.orig	2010-06-24 09:22:51.000000000 +0900
++++ OpenRTM-aist-r1971/src/lib/coil/common/Timer.cpp	2020-07-31 16:53:09.000000000 +0900
+@@ -119,6 +119,7 @@
+    */
+   void Timer::invoke()
+   {
++    Guard guard(m_taskMutex);
+     for (size_t i(0), len(m_tasks.size()); i < len; ++i)
+       {
+ 	m_tasks[i].remains = m_tasks[i].remains - m_interval;

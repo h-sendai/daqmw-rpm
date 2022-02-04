@@ -1,0 +1,10 @@
+--- OpenRTM-aist-r1971/examples/SimpleService/Makefile.am.orig	2010-06-24 09:22:55.000000000 +0900
++++ OpenRTM-aist-r1971/examples/SimpleService/Makefile.am	2011-01-19 11:06:43.100328463 +0900
+@@ -128,7 +128,6 @@
+ 	rtc.conf
+ 
+ ALL_SRC =                    \
+-	$(IDL_SOURCES)       \
+         $(PROVIDER_COMP_SRC) \
+         $(CONSUMER_COMP_SRC)
+ 
