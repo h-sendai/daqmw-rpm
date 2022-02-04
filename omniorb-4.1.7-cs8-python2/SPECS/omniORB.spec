@@ -9,8 +9,8 @@
 %global with_systemd 1
 %endif
 
-# openssl enabled by default, add conditional --without openssl
-%bcond_without openssl
+# openssl disabled by default, add conditional --with openssl
+%bcond_with openssl
 
 Name:           omniORB
 Version:        4.1.7
@@ -251,7 +251,7 @@ fi
 %changelog
 * Thu Feb 03 2022 Hiroshi Sendai <hiroshi.sendai@kek.jp> - 4.1.7-4
 - Recompile on CentOS Stream 8 with python2 (not python3)
-- build command: rpmbuild -bb --without openssl omniORB.spec
+- Disable openssl support by default
 
 * Mon May 10 2021 Hiroshi Sendai <hiroshi.sendai@kek.jp> - 4.1.7-3
 - Recompile with debuginfo package
