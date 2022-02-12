@@ -1,6 +1,7 @@
 # DAQ-Middleware RPM関連ファイル
 
 - RPM Specの解説: https://rpm-packaging-guide.github.io/
+- [RPM Specメモ](memo.md)
 
 ## ファイル
 
