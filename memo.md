@@ -55,3 +55,9 @@ SRPMS
 ### tarballを展開してできるディレクトリと``{%name}-%{version}``の値が違う
 
 setup -q -n other_name
+
+### vim new.spec
+
+CentOS上のvimでまだ存在しないファイル名 + .specを指定すると/usr/share/vim/vimfiles/template.spec
+ファイルがバッファに入る。これをうめていけばspecファイルができる。
+入る内容: [template/template.spec](template/template.spec)
