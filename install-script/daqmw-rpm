@@ -5,17 +5,24 @@ set -e
 progpath=$0
 progname=$(basename $0)
 
-if which lsb_release > /dev/null 2>&1; then
+if [ -f /etc/os-release ]; then
     :
 else
-    echo "This script requires lsb_release command to find which OS you are using"
-    echo "If you use Scientific Linux, CentOS, Red Hat Enterprise Linux,"
-    echo "root# yum install redhat-lsb-core"
+    echo "This script requires /etc/os-release file to find which OS you are using"
+    echo "Please install following pacakge."
+    echo "RHEL 8:             redhat-release"
+    echo "Scientific Linux 7: sl-release"
+    echo "CentOS Stream 8/9:  centos-stream-release"
+    exit 1
 fi
 
-os_name=$(lsb_release -is)
-os_major_version=$(lsb_release -rs | sed -e 's/\..*$//')
+os_name=$(grep '^ID=' /etc/os-release | awk -F'=' '{print $2}' | sed -e 's/"//g')
+os_major_version=$(grep '^VERSION_ID=' /etc/os-release | awk -F'=' '{print $2}' | sed -e 's/"//g' | sed -e 's/\..*//')
 el_name="el$os_major_version"
+
+#echo os_name: $os_name
+#echo os_major_version: $os_major_version
+#echo el_name: $el_name
 
 if [ $os_major_version -eq 5 ]; then
     repo_rpm_url=http://daqmw.kek.jp/rpm/${el_name}/noarch/kek-daqmiddleware-repo-2-0.noarch.rpm
@@ -45,7 +52,7 @@ repo_rpm_name_testing2=${repo_name_testing2}-repo
 enable_testing=no
 
 case $os_name in
-Scientific*)
+scientific*)
     case $os_major_version in
         5)
             enable_dist_repo="--enablerepo=sl-base --enablerepo=sl-security" ;;
@@ -55,7 +62,7 @@ Scientific*)
             enable_dist_repo="--enablerepo=sl --enablerepo=sl-security --enablerepo=sl-fastbugs" ;;
     esac
     ;;
-Cent*)
+cent*)
     case $os_major_version in
         6)
             enable_dist_repo="--enablerepo=base --enablerepo=updates" ;;
