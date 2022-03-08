@@ -1,0 +1,5 @@
+[kek-daqmiddleware-testing2]
+name=KEK DAQMiddleware TESTING2 repository in KEK
+baseurl=http://daqmw.kek.jp/testing2/rpm/el9/$basearch
+enabled=0
+gpgcheck=0

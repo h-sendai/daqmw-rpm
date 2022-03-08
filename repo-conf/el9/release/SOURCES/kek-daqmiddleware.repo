@@ -1,0 +1,5 @@
+[kek-daqmiddleware]
+name=KEK DAQMiddleware repository in KEK
+baseurl=http://daqmw.kek.jp/rpm/el9/$basearch
+enabled=0
+gpgcheck=0
