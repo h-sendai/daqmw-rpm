@@ -52,6 +52,25 @@ SRPMS
 
 ## 色々
 
+rpmマクロの定義は/usr/lib/rpm/ディレクトリ以下にある。
+
+### rpm specファイル中のマクロの展開
+
+``rpm --eval '%make_build'``のように``rpm --eval``でマクロを展開した
+値を調べることができる。
+
+### %make_build
+
+CentOS 7: ``%make_build %{__make} %{?_smp_mflags}``
+
+CentOS 8: ``%{__make} %{_make_output_sync} %{?_smp_mflags}``
+
+複数CPUがあるマシンではCentOS 7では``make -j 4``となる。
+CentOS 8では``%{_make_output_sync}``が``-O``に展開され、
+``%make_build``を使うとコンパイルコマンドが表示されなくなる。
+``%make_build``のかわりに
+``%{__make} %{?_smp_mflags}``を使うと表示されるようになる。
+
 ### tarballを展開してできるディレクトリと``{%name}-%{version}``の値が違う
 
 setup -q -n other_name
