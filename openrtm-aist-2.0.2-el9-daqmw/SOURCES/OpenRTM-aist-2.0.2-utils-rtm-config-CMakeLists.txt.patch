@@ -1,0 +1,22 @@
+--- OpenRTM-aist-2.0.2.orig/utils/rtm-config/CMakeLists.txt	2024-06-06 15:46:03.000000000 +0900
++++ OpenRTM-aist-2.0.2/utils/rtm-config/CMakeLists.txt	2025-09-16 13:33:59.759913068 +0900
+@@ -26,11 +26,17 @@
+ string(REPLACE ";" " " IDL_FLAGS "${IDLCOMMAND_FLAGS}")
+ 
+ # Other definitions
+-set(TMPLIBS -lpthread ${RTM_LINKER_OPTION})
++foreach(t ${RTM_LINKER_OPTION})
++    if(NOT ${t} STREQUAL "Threads::Threads")
++        set(u ${u} -l${t})
++    endif()
++endforeach()
++#set(TMPLIBS -lpthread ${RTM_LINKER_OPTION})
++set(TMPLIBS -lpthread ${u})
+ foreach(library ${ORB_LIBRARIES})
+ 	set(TMPLIBS ${TMPLIBS} -l${library})
+ endforeach()
+-set(TMPLIBS ${TMPLIBS} -l${RTM_PROJECT_NAME} -lrtmCamera -lrtmManipulator)
++set(TMPLIBS ${TMPLIBS} -l${RTM_PROJECT_NAME})
+ string(REPLACE ";" " " LIBS "${TMPLIBS}")
+ 
+ #------------------------------

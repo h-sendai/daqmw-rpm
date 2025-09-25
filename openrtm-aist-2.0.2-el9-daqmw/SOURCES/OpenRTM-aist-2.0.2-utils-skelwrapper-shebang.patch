@@ -1,0 +1,8 @@
+--- OpenRTM-aist-2.0.2.orig/utils/rtm-skelwrapper/rtm-skelwrapper.in	2024-06-06 15:46:03.000000000 +0900
++++ OpenRTM-aist-2.0.2/utils/rtm-skelwrapper/rtm-skelwrapper.in	2025-09-11 10:07:55.867232531 +0900
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ # -*- python -*-
+ # -*- coding: utf-8 -*-
+ #

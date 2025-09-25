@@ -1,0 +1,33 @@
+--- OpenRTM-aist-2.0.2/utils/rtm-skelwrapper/skel_wrapper.py.orig	2024-06-06 15:46:03.000000000 +0900
++++ OpenRTM-aist-2.0.2/utils/rtm-skelwrapper/skel_wrapper.py	2025-09-22 06:44:20.111221916 +0900
+@@ -247,7 +247,7 @@
+ 			self.data["dependencies"] = ''.join(includes)
+ 		self.verbose_print = print if verbose else lambda *a, **k: None
+ 
+-		m = re.search("\.[iI][dD][lL]$", idl_fname)
++		m = re.search("\\.[iI][dD][lL]$", idl_fname)
+ 		if m:
+ 			basename = idl_fname.replace(m.group(0), "")
+ 		else:
+@@ -307,8 +307,8 @@
+ 			oldtext = f.read()
+ 			f.close()
+ 
+-			newtext = re.sub(" \@date.*?\n", "", text)
+-			oldtext2 = re.sub(" \@date.*?\n", "", oldtext)
++			newtext = re.sub(" \\@date.*?\n", "", text)
++			oldtext2 = re.sub(" \\@date.*?\n", "", oldtext)
+ 			if newtext == oldtext2:
+ 				self.verbose_print("\"" + fname + \
+ 			    "\" exists and contents is same.")
+--- OpenRTM-aist-2.0.2/utils/rtm-skelwrapper/yat.py.orig	2024-06-06 15:46:03.000000000 +0900
++++ OpenRTM-aist-2.0.2/utils/rtm-skelwrapper/yat.py	2025-09-22 06:45:56.630021986 +0900
+@@ -188,7 +188,7 @@
+ 
+     """
+     
+-    def __init__(self, template, begin_mark="\[", end_mark="\]"):
++    def __init__(self, template, begin_mark="\\[", end_mark="\\]"):
+         self.__procs = [self.__proc_text,
+                         self.__proc_cmd,
+                         self.__proc_bracket]
