@@ -13,6 +13,7 @@ else
     echo "RHEL 8:             redhat-release"
     echo "Scientific Linux 7: sl-release"
     echo "CentOS Stream 8/9:  centos-stream-release"
+    echo "AlmaLinux 8/9:      almalinux-release"
     exit 1
 fi
 
