@@ -1,6 +1,6 @@
 Name:           OpenRTM-aist
 Version:        2.0.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        RT-Component development environment
 
 License:        LGPL
@@ -10,6 +10,7 @@ Source0:        OpenRTM-aist-2.0.2.tar.gz
 Patch0:         OpenRTM-aist-2.0.2-utils-skelwrapper-shebang.patch
 Patch1:         OpenRTM-aist-2.0.2-utils-skelwrapper-regex.patch
 Patch2:         OpenRTM-aist-2.0.2-utils-rtm-config-CMakeLists.txt.patch
+Patch3:         OpenRTM-aist-2.0.2-src-lib-coil-posix-coil-affinity.patch
 
 BuildRequires: omniORB-devel >= 4.3
 # BuildRequires: doxygen
@@ -48,6 +49,7 @@ National Institute of Advanced Industrial Science and Technology
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 # %%autosetup
 # %%patch0 -p1
 # need 1.2.1 rpmbuild

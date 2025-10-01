@@ -1,0 +1,20 @@
+--- OpenRTM-aist-2.0.2.orig/src/lib/coil/posix/coil/Affinity.cpp	2024-06-06 15:46:03.000000000 +0900
++++ OpenRTM-aist-2.0.2/src/lib/coil/posix/coil/Affinity.cpp	2025-09-29 12:30:20.379723467 +0900
+@@ -56,7 +56,7 @@
+ 
+     for (size_t i(0); i < cpu_mask.size(); ++i)
+       {
+-        CPU_SET(i, &cpu_set);
++        CPU_SET(cpu_mask[i], &cpu_set);
+       }
+ 
+     int result = sched_setaffinity(pid, sizeof(cpu_set_t), &cpu_set);
+@@ -114,7 +114,7 @@
+ 
+     for (size_t i(0); i < cpu_mask.size(); ++i)
+       {
+-        CPU_SET(i, &cpu_set);
++        CPU_SET(cpu_mask[i], &cpu_set);
+       }
+ 
+     int result = pthread_setaffinity_np(tid, sizeof(cpu_set_t), &cpu_set);
